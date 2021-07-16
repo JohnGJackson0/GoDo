@@ -1,19 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { Tasks } from "./src/Features/Tasks";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { store } from "./src/store";
+import { Provider } from "react-redux";
+import FlashMessage from "react-native-flash-message";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <Tasks />
+        <FlashMessage position="bottom" />
+      </Provider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

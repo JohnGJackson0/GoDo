@@ -8,17 +8,24 @@
     "test": "jest"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.0",
     "expo": "~41.0.1",
-    "expo-updates": "~0.5.4",
     "expo-splash-screen": "~0.10.2",
+    "expo-updates": "~0.5.4",
+    "modal-react-native-web": "^0.2.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",
+    "react-native-elements": "^3.4.2",
+    "react-native-flash-message": "^0.1.23",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-modalize": "^2.0.8",
     "react-native-reanimated": "~2.1.0",
+    "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "~3.0.0",
     "react-native-unimodules": "~0.13.3",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
