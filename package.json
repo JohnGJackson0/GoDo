@@ -8,6 +8,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
+    "@react-native-community/checkbox": "^0.5.8",
     "@reduxjs/toolkit": "^1.6.0",
     "expo": "~41.0.1",
     "expo-splash-screen": "~0.10.2",
@@ -20,6 +23,8 @@
     "react-native-flash-message": "^0.1.23",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-modalize": "^2.0.8",
+    "react-native-paper": "^4.9.2",
+    "react-native-portalize": "^1.0.7",
     "react-native-reanimated": "~2.1.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "~3.0.0",

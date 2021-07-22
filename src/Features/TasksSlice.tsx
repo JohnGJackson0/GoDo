@@ -1,12 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { showMessage } from "react-native-flash-message";
 
-export interface Task {
-  name: string;
-}
-
+let nextSessionId = 0;
 export interface TasksState {
-  tasks: Array<Task>;
+  tasks: Array<{ name: string; checked: boolean; id: number }>;
 }
 
 const initialState: TasksState = {
@@ -29,12 +26,39 @@ export const TasksSlice = createSlice({
           type: "danger",
         });
       } else {
-        state.tasks.push(action.payload);
+        state.tasks.push({
+          name: action.payload,
+          checked: false,
+          id: nextSessionId,
+        });
       }
+      id: nextSessionId++;
+    },
+    updateTask: (state, action) => {
+      state.tasks.forEach(function (arrayItem, index) {
+        if (action.payload.id == state.tasks[index].id) {
+          state.tasks[index].name = action.payload.name;
+        }
+      });
+    },
+    updateChecked: (state, action) => {
+      state.tasks.forEach(function (arrayItem, index) {
+        if (action.payload.id == state.tasks[index].id) {
+          state.tasks[index].checked = action.payload.checked;
+        }
+      });
+    },
+    removeTask: (state, action) => {
+      state.tasks.forEach(function (arrayItem, index) {
+        if (action.payload.id == state.tasks[index].id) {
+          state.tasks.splice(index, 1);
+        }
+      });
     },
   },
 });
 
-export const { addTask } = TasksSlice.actions;
+export const { addTask, removeTask, updateChecked, updateTask } =
+  TasksSlice.actions;
 
 export default TasksSlice.reducer;
