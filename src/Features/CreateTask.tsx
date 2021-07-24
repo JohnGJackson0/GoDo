@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Theme } from "../Theme";
 import { useDispatch } from "react-redux";
 import { addTask } from "./TasksSlice";
@@ -20,7 +20,7 @@ export function CreateTask(props: any) {
         value={taskInput}
       ></Theme.themedInput>
       <Theme.themedButton
-        onClick={() => {
+        onPress={() => {
           dispatch(addTask(taskInput));
         }}
       >

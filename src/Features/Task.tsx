@@ -3,69 +3,88 @@ import { Theme } from "../Theme";
 import { TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { updateChecked, removeTask } from "./TasksSlice";
+import { Checkbox } from "react-native-paper";
 
 const Task = (props: any) => {
   const dispatch = useDispatch();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = () => {
+    console.log("sajdhaskj");
     dispatch(
-      updateChecked({ id: props.task.id, checked: event.target.checked })
+      updateChecked({ id: props.task.id, checked: !props.task.checked })
     );
   };
 
   return (
-    <Theme.themedContainer>
-      <View
+    <Theme.themedContainerRow>
+      <TouchableOpacity
+        onPress={() => {
+          handleChange();
+        }}
         style={{
-          flexDirection: "row",
-          paddingEnd: "10px",
-          paddingStart: "10px",
+          flexGrow: 1,
+          justifyContent: "center",
         }}
       >
-        <TouchableOpacity style={{ width: "80%" }}>
-          {props.task.checked ? (
-            <Theme.themedCheckbox
-              label={
-                <Theme.themedTextHighEmpasisStrikeThrough>
-                  {props.task.name}
-                </Theme.themedTextHighEmpasisStrikeThrough>
-              }
-              onChange={handleChange}
-              checked={props.task.checked}
-            />
-          ) : (
-            <Theme.themedCheckbox
-              label={
-                <Theme.themedTextHighEmpasis>
-                  {props.task.name}
-                </Theme.themedTextHighEmpasis>
-              }
-              onChange={handleChange}
-              checked={props.task.checked}
-            />
-          )}
-        </TouchableOpacity>
-        <View style={{ width: "20%", justifyContent: "center" }}>
-          {props.task.checked ? (
-            <Theme.themedVariantButton
-              onClick={() => {
-                dispatch(removeTask(props.task));
+        {props.task.checked ? (
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+              flexGrow: 1,
+            }}
+          >
+            <Theme.ThemedCheckbox
+              status={props.task.checked ? "checked" : "unchecked"}
+              onPress={() => {
+                handleChange();
               }}
-            >
-              <Theme.themedDeleteIcon />
-            </Theme.themedVariantButton>
-          ) : (
-            <Theme.themedVariantButton
-              onClick={() => {
-                props.openEditModal(props.task);
+            />
+            <Theme.themedTextHighEmpasisStrikeThrough>
+              {props.task.name}
+            </Theme.themedTextHighEmpasisStrikeThrough>
+          </View>
+        ) : (
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
+            <Theme.ThemedCheckbox
+              status={props.task.checked ? "checked" : "unchecked"}
+              onPress={() => {
+                handleChange();
               }}
-            >
-              <Theme.themedEditIcon />
-            </Theme.themedVariantButton>
-          )}
-        </View>
+            />
+            <Theme.themedTextHighEmpasis>
+              {props.task.name}
+            </Theme.themedTextHighEmpasis>
+          </View>
+        )}
+      </TouchableOpacity>
+      <View style={{ alignItems: "center" }}>
+        {props.task.checked ? (
+          <Theme.themedVariantButton
+            onPress={() => {
+              dispatch(removeTask(props.task));
+            }}
+          >
+            <Theme.themedDeleteIcon />
+          </Theme.themedVariantButton>
+        ) : (
+          <Theme.themedVariantButton
+            onPress={() => {
+              props.openEditModal(props.task);
+            }}
+          >
+            <Theme.themedEditIcon />
+          </Theme.themedVariantButton>
+        )}
       </View>
-    </Theme.themedContainer>
+    </Theme.themedContainerRow>
   );
 };
 

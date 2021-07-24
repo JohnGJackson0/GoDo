@@ -59,6 +59,7 @@ export function Tasks(props: any) {
           modalStyle={Theme.themedModalStyle}
           adjustToContentHeight={true}
           ref={modalizeRef}
+          collapsable={false}
         >
           {task == "" ? <CreateTask /> : <EditTask task={task} />}
         </Modalize>
