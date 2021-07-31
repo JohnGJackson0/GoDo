@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { showMessage } from "react-native-flash-message";
-
-let nextSessionId = 0;
 export interface TasksState {
   tasks: Array<{ name: string; checked: boolean; id: number; list: any }>;
+  lastId: number;
 }
 
 const initialState: TasksState = {
   tasks: [],
+  lastId: 0,
 };
 
 export const TasksSlice = createSlice({
@@ -29,11 +29,11 @@ export const TasksSlice = createSlice({
         state.tasks.push({
           name: action.payload.name,
           checked: false,
-          id: nextSessionId,
+          id: state.lastId + 1,
           list: action.payload.onList,
         });
+        state.lastId = state.lastId + 1;
       }
-      id: nextSessionId++;
     },
     updateTask: (state, action) => {
       state.tasks.forEach(function (arrayItem, index) {
