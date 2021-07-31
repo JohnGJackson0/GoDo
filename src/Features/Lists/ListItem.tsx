@@ -6,10 +6,9 @@ import { updateActiveCatagory } from "./ListsSlice";
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: Theme.secondayBackgroundColor,
-    flex: 1,
-    margin: 1,
-    height: Dimensions.get("window").width / 2, // approximate a square
+    height: Dimensions.get("window").width / 2 - 6,
+    width: Dimensions.get("window").width / 2 - 6,
+    margin: 2,
   },
   itemInvisible: {
     backgroundColor: "transparent",
@@ -32,15 +31,17 @@ const ListItem = (props: any, { navigation }: any) => {
   if (props.list.editable == false) {
     return (
       <TouchableOpacity
-        style={styles.item}
         onPress={() => {
           dispatch(updateActiveCatagory(props.list));
           props.goBack(props.list.name);
         }}
+        style={styles.item}
       >
-        <Theme.themedTextHighEmpasis>
-          {props.list.name}
-        </Theme.themedTextHighEmpasis>
+        <Theme.themedSurface style={styles.item}>
+          <Theme.themedTextHighEmpasis>
+            {props.list.name}
+          </Theme.themedTextHighEmpasis>
+        </Theme.themedSurface>
       </TouchableOpacity>
     );
   } else if (props.list.empty) {
@@ -57,23 +58,25 @@ const ListItem = (props: any, { navigation }: any) => {
   } else {
     return (
       <TouchableOpacity
-        style={styles.item}
         onPress={() => {
           dispatch(updateActiveCatagory(props.list));
           props.goBack(props.list.name);
         }}
+        style={styles.item}
       >
-        <Theme.themedTextHighEmpasis>
-          {props.list.name}
-        </Theme.themedTextHighEmpasis>
-        <View style={styles.editIcon}>
-          <Theme.themedEditIcon
-            onPress={() => {
-              props.onEdit(props.list);
-              Theme.changeNavigationBarName(props.list.name);
-            }}
-          />
-        </View>
+        <Theme.themedSurface style={styles.item}>
+          <Theme.themedTextHighEmpasis>
+            {props.list.name}
+          </Theme.themedTextHighEmpasis>
+          <View style={styles.editIcon}>
+            <Theme.themedEditIcon
+              onPress={() => {
+                props.onEdit(props.list);
+                Theme.changeNavigationBarName(props.list.name);
+              }}
+            />
+          </View>
+        </Theme.themedSurface>
       </TouchableOpacity>
     );
   }

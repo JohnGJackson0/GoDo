@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { View } from "react-native";
 import { Theme } from "../../Theme";
 import { useDispatch } from "react-redux";
 import { addList } from "./ListsSlice";
@@ -13,20 +14,21 @@ export const AddLists = (props: any) => {
 
   return (
     <Theme.themedContainer>
-      <Theme.themedTextHighEmpasis>Add Catagory</Theme.themedTextHighEmpasis>
-      <Theme.themedInput
-        placeholder="Add a task"
-        onChangeText={handleListName}
-        value={listInput}
-      />
-      <Theme.themedButton
-        onPress={() => {
-          dispatch(addList(listInput));
-          props.onClose();
-        }}
-      >
-        Add catagory
-      </Theme.themedButton>
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ flexGrow: 1 }}>
+          <Theme.themedInput
+            placeholder="Add a catagory"
+            onChangeText={handleListName}
+            value={listInput}
+          />
+        </View>
+        <Theme.themedEnter
+          onPress={() => {
+            dispatch(addList(listInput));
+            props.onClose();
+          }}
+        />
+      </View>
     </Theme.themedContainer>
   );
 };

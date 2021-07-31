@@ -22,8 +22,6 @@ export const ListsSlice = createSlice({
   initialState,
   reducers: {
     updateActiveCatagory(state, action) {
-      //TODO: fix
-
       if (typeof state.lists[action.payload.id] == undefined) {
         showMessage({
           message: "Catagory doesn't exist, something went wrong.",
@@ -61,9 +59,16 @@ export const ListsSlice = createSlice({
         }
       });
     },
+    deleteList: (state, action) => {
+      state.lists.forEach(function (arrayItem, index) {
+        if (action.payload.id == state.lists[index].id) {
+          state.lists.splice(index, 1);
+        }
+      });
+    },
   },
 });
 
-export const { addList, editList, updateActiveCatagory } = ListsSlice.actions;
+export const { addList, editList, updateActiveCatagory, deleteList } = ListsSlice.actions;
 
 export default ListsSlice.reducer;

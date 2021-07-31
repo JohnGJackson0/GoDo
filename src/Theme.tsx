@@ -1,8 +1,15 @@
 import React, { useRef } from "react";
 import { StyleSheet, View, FlatList } from "react-native";
 import { FAB, Text, Input } from "react-native-elements";
-import { Checkbox, Button, IconButton } from "react-native-paper";
-import { Appbar } from "react-native-paper";
+import {
+  Checkbox,
+  Button,
+  IconButton,
+  DarkTheme,
+  Appbar,
+  Surface,
+  withTheme,
+} from "react-native-paper";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
 
@@ -17,6 +24,13 @@ var textLowEmpasis = "rgba(255,255,255, 0.38)";
 var textOnDifferentBackgrounds = "#FFFFFF";
 var darkTheme = true;
 var appBarTitle = "All";
+
+var paperTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+  },
+};
 
 const styles = StyleSheet.create({
   containerFullScreen: {
@@ -109,6 +123,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "20%",
+  },
+  surface: {
+    elevation: 4,
   },
 });
 
@@ -259,6 +276,17 @@ const themedTextHighEmpasis = (props: any) => {
   );
 };
 
+const themedTextMediumEmpasis = (props: any) => {
+  return (
+    <Text
+      h4
+      numberOfLines={1}
+      style={styles.textMediumEmpasis}
+      {...props}
+    ></Text>
+  );
+};
+
 const themedTextAccent = (props: any) => {
   return (
     <Text h4 numberOfLines={1} style={styles.textAccent} {...props}></Text>
@@ -302,6 +330,10 @@ const themedInput = (props: any) => {
   );
 };
 
+const themedSurface = (props: any) => {
+  return <Surface elevation={4} style={styles.surface} {...props}></Surface>;
+};
+
 export const Theme = {
   themedFullScreenContainer,
   themedExtendedFab,
@@ -329,4 +361,6 @@ export const Theme = {
   themedTextAccent,
   themedEnter,
   themedListButton,
+  themedSurface,
+  paperTheme,
 };

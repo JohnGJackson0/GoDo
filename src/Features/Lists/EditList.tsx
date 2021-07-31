@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { View } from "react-native";
 import { Theme } from "../../Theme";
 import { useDispatch } from "react-redux";
-import { editList } from "./ListsSlice";
+import { editList, deleteList } from "./ListsSlice";
 
 const EditList = (props: any) => {
   const [listInput, setListInput] = useState(props.list.name);
@@ -13,20 +14,28 @@ const EditList = (props: any) => {
 
   return (
     <Theme.themedContainer>
-      <Theme.themedTextHighEmpasis>Edit Catagory</Theme.themedTextHighEmpasis>
-      <Theme.themedInput
-        placeholder={props.list.name}
-        onChangeText={handleListName}
-        value={listInput}
-      />
-      <Theme.themedButton
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ flexGrow: 1 }}>
+          <Theme.themedInput
+            placeholder={props.list.name}
+            onChangeText={handleListName}
+            value={listInput}
+          />
+        </View>
+        <Theme.themedEnter
+          onPress={() => {
+            dispatch(editList({ id: props.list.id, name: listInput }));
+            props.onClose();
+          }}
+        ></Theme.themedEnter>
+      </View>
+      <Theme.themedDeleteIcon
         onPress={() => {
-          dispatch(editList({ id: props.list.id, name: listInput }));
+          console.log("delete icon clicked");
+          dispatch(deleteList({ id: props.list.id }));
           props.onClose();
         }}
-      >
-        Edit catagory
-      </Theme.themedButton>
+      ></Theme.themedDeleteIcon>
     </Theme.themedContainer>
   );
 };
