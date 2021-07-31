@@ -1,9 +1,9 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { showMessage } from "react-native-flash-message";
 
 let nextSessionId = 0;
 export interface TasksState {
-  tasks: Array<{ name: string; checked: boolean; id: number }>;
+  tasks: Array<{ name: string; checked: boolean; id: number; list: any }>;
 }
 
 const initialState: TasksState = {
@@ -15,21 +15,22 @@ export const TasksSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action) => {
-      if (action.payload == "") {
+      if (action.payload.name == "") {
         showMessage({
           message: "Please enter text in the task input.",
           type: "danger",
         });
-      } else if (action.payload.length > 90) {
+      } else if (action.payload.name.length > 90) {
         showMessage({
           message: "Character limit on tasks are no more than 90.",
           type: "danger",
         });
       } else {
         state.tasks.push({
-          name: action.payload,
+          name: action.payload.name,
           checked: false,
           id: nextSessionId,
+          list: action.payload.onList,
         });
       }
       id: nextSessionId++;
@@ -38,6 +39,8 @@ export const TasksSlice = createSlice({
       state.tasks.forEach(function (arrayItem, index) {
         if (action.payload.id == state.tasks[index].id) {
           state.tasks[index].name = action.payload.name;
+          state.tasks[index].list = action.payload.list;
+          console.log("updated list ", state.tasks[index].list);
         }
       });
     },
