@@ -9,29 +9,33 @@ import { Host } from "react-native-portalize";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ThemedNavigationBarTasks } from "./src/Theme";
-
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
 const Stack = createStackNavigator();
+let persistor = persistStore(store);
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <Host>
-          <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName="Tasks"
-              screenOptions={{
-                header: (props) => <ThemedNavigationBarTasks {...props} />,
-              }}
-            >
-              <Stack.Screen name="Tasks" component={Tasks} />
-              <Stack.Screen name="Lists" component={Lists} />
-            </Stack.Navigator>
-            <FlashMessage position="bottom" />
-          </NavigationContainer>
-        </Host>
-      </Provider>
-    </SafeAreaProvider>
+    <PersistGate loading={null} persistor={persistor}>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <Host>
+            <NavigationContainer>
+              <Stack.Navigator
+                initialRouteName="Tasks"
+                screenOptions={{
+                  header: (props) => <ThemedNavigationBarTasks {...props} />,
+                }}
+              >
+                <Stack.Screen name="Tasks" component={Tasks} />
+                <Stack.Screen name="Lists" component={Lists} />
+              </Stack.Navigator>
+              <FlashMessage position="bottom" />
+            </NavigationContainer>
+          </Host>
+        </Provider>
+      </SafeAreaProvider>
+    </PersistGate>
   );
 }
