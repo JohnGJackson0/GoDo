@@ -8,9 +8,10 @@ import FlashMessage from "react-native-flash-message";
 import { Host } from "react-native-portalize";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ThemedNavigationBarTasks } from "./src/Theme";
+import { Theme, ThemedNavigationBarTasks } from "./src/Theme";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 const Stack = createStackNavigator();
 let persistor = persistStore(store);
@@ -19,6 +20,7 @@ export default function App() {
   return (
     <PersistGate loading={null} persistor={persistor}>
       <SafeAreaProvider>
+      <PaperProvider theme={Theme.paperTheme}>
         <Provider store={store}>
           <Host>
             <NavigationContainer>
@@ -35,6 +37,7 @@ export default function App() {
             </NavigationContainer>
           </Host>
         </Provider>
+        </PaperProvider>
       </SafeAreaProvider>
     </PersistGate>
   );

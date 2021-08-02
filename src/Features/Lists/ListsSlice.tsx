@@ -22,15 +22,12 @@ export const ListsSlice = createSlice({
   initialState,
   reducers: {
     updateActiveCatagory(state, action) {
-      //TODO: fix
-
       if (typeof state.lists[action.payload.id] == undefined) {
         showMessage({
           message: "Catagory doesn't exist, something went wrong.",
           type: "danger",
         });
       } else {
-        console.log("selected list ", action.payload);
         state.selectedList = action.payload;
       }
     },
@@ -50,6 +47,7 @@ export const ListsSlice = createSlice({
       }
     },
     editList: (state, action) => {
+      //todo: edit list
       state.lists.forEach(function (arrayItem, index) {
         if (state.lists[action.payload.id].editable == false) {
           showMessage({
@@ -61,9 +59,17 @@ export const ListsSlice = createSlice({
         }
       });
     },
+    deleteList: (state, action) => {
+      state.lists.forEach(function (arrayItem, index) {
+        if (action.payload.id == state.lists[index].id) {
+          state.lists.splice(index, 1);
+        }
+      });
+    },
   },
 });
 
-export const { addList, editList, updateActiveCatagory } = ListsSlice.actions;
+export const { addList, editList, updateActiveCatagory, deleteList } =
+  ListsSlice.actions;
 
 export default ListsSlice.reducer;

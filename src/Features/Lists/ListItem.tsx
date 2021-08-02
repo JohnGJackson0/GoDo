@@ -6,10 +6,9 @@ import { updateActiveCatagory } from "./ListsSlice";
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: Theme.secondayBackgroundColor,
-    flex: 1,
-    margin: 1,
-    height: Dimensions.get("window").width / 2, // approximate a square
+    height: Dimensions.get("window").width / 2 - 6,
+    width: Dimensions.get("window").width / 2 - 6,
+    margin: 2,
   },
   itemInvisible: {
     backgroundColor: "transparent",
@@ -28,19 +27,27 @@ const styles = StyleSheet.create({
 
 const ListItem = (props: any, { navigation }: any) => {
   const dispatch = useDispatch();
+  const [taskCount, setTaskCount] = useState(props.taskCount);
+
+  useEffect(() => {
+    setTaskCount(props.taskCount);
+  }, [props.taskCount]);
 
   if (props.list.editable == false) {
     return (
       <TouchableOpacity
-        style={styles.item}
         onPress={() => {
           dispatch(updateActiveCatagory(props.list));
           props.goBack(props.list.name);
         }}
+        style={styles.item}
       >
-        <Theme.themedTextHighEmpasis>
-          {props.list.name}
-        </Theme.themedTextHighEmpasis>
+        <Theme.themedSurface style={styles.item}>
+          <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
+          <Theme.themedTextHighEmpasis>
+            {"\n Tasks " + taskCount}
+          </Theme.themedTextHighEmpasis>
+        </Theme.themedSurface>
       </TouchableOpacity>
     );
   } else if (props.list.empty) {
@@ -57,23 +64,26 @@ const ListItem = (props: any, { navigation }: any) => {
   } else {
     return (
       <TouchableOpacity
-        style={styles.item}
         onPress={() => {
           dispatch(updateActiveCatagory(props.list));
           props.goBack(props.list.name);
         }}
+        style={styles.item}
       >
-        <Theme.themedTextHighEmpasis>
-          {props.list.name}
-        </Theme.themedTextHighEmpasis>
-        <View style={styles.editIcon}>
-          <Theme.themedEditIcon
-            onPress={() => {
-              props.onEdit(props.list);
-              Theme.changeNavigationBarName(props.list.name);
-            }}
-          />
-        </View>
+        <Theme.themedSurface style={styles.item}>
+          <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
+          <Theme.themedTextHighEmpasis>
+            {"\n Tasks " + props.taskCount}
+          </Theme.themedTextHighEmpasis>
+          <View style={styles.editIcon}>
+            <Theme.themedEditIcon
+              onPress={() => {
+                props.onEdit(props.list);
+                Theme.changeNavigationBarName(props.list.name);
+              }}
+            />
+          </View>
+        </Theme.themedSurface>
       </TouchableOpacity>
     );
   }
