@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
 
 const ListItem = (props: any, { navigation }: any) => {
   const dispatch = useDispatch();
+  const [taskCount, setTaskCount] = useState(props.taskCount);
+
+  useEffect(() => {
+    setTaskCount(props.taskCount);
+  }, [props.taskCount]);
 
   if (props.list.editable == false) {
     return (
@@ -38,8 +43,9 @@ const ListItem = (props: any, { navigation }: any) => {
         style={styles.item}
       >
         <Theme.themedSurface style={styles.item}>
+          <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
           <Theme.themedTextHighEmpasis>
-            {props.list.name}
+            {"\n Tasks " + taskCount}
           </Theme.themedTextHighEmpasis>
         </Theme.themedSurface>
       </TouchableOpacity>
@@ -65,8 +71,9 @@ const ListItem = (props: any, { navigation }: any) => {
         style={styles.item}
       >
         <Theme.themedSurface style={styles.item}>
+          <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
           <Theme.themedTextHighEmpasis>
-            {props.list.name}
+            {"\n Tasks " + props.taskCount}
           </Theme.themedTextHighEmpasis>
           <View style={styles.editIcon}>
             <Theme.themedEditIcon

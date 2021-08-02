@@ -29,13 +29,13 @@ const EditList = (props: any) => {
           }}
         ></Theme.themedEnter>
       </View>
-      <Theme.themedDeleteIcon
+      <Theme.themedLargeDeleteIcon
         onPress={() => {
           console.log("delete icon clicked");
           dispatch(deleteList({ id: props.list.id }));
           props.onClose();
         }}
-      ></Theme.themedDeleteIcon>
+      ></Theme.themedLargeDeleteIcon>
     </Theme.themedContainer>
   );
 };

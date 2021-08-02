@@ -249,6 +249,17 @@ const themedDeleteIcon = (props: any) => {
   );
 };
 
+const themedLargeDeleteIcon = (props: any) => {
+  return (
+    <IconButton
+      icon="delete-outline"
+      color={primaryAccentColor}
+      {...props}
+      size={30}
+    />
+  );
+};
+
 const themedAddIcon = (props: any) => {
   return (
     <IconButton color={primaryAccentColor} icon="plus" {...props} size={90} />
@@ -331,7 +342,7 @@ const themedInput = (props: any) => {
 };
 
 const themedSurface = (props: any) => {
-  return <Surface elevation={4} style={styles.surface} {...props}></Surface>;
+  return <Surface elevation={1} style={styles.surface} {...props}></Surface>;
 };
 
 export const Theme = {
@@ -350,6 +361,7 @@ export const Theme = {
   themedTextHighEmpasisStrikeThrough,
   themedEditIcon,
   themedDeleteIcon,
+  themedLargeDeleteIcon,
   themedAddIcon,
   themedContainerRow,
   ThemedNavigationBarTasks,
@@ -363,4 +375,5 @@ export const Theme = {
   themedListButton,
   themedSurface,
   paperTheme,
+  themedTextMediumEmpasis,
 };

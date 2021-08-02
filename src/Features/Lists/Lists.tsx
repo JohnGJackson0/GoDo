@@ -34,16 +34,31 @@ export function Lists(props: any) {
   const [list, setList] = useState("");
   const listData = useSelector((state: RootState) => state.lists);
   const dispatch = useDispatch();
+  const taskData = useSelector((state: RootState) => state.tasks);
 
   useEffect(() => {
     modalizeRef.current?.open();
   }, [list]);
+
+  const getTaskCount = (id: number) => {
+    var result: number = 0;
+
+    taskData.tasks.forEach(function (item, index) {
+      if (id == 0) {
+        result++;
+      } else if (id == item.list.id) {
+        result++;
+      }
+    });
+    return result;
+  };
 
   const renderItem = ({ item, index }: any) => {
     return (
       <ListItem
         key={item.id}
         list={item}
+        taskCount={getTaskCount(item.id)}
         onAdd={onAdd}
         onEdit={onEdit}
         goBack={goBack}

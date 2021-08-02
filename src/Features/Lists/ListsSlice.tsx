@@ -28,7 +28,6 @@ export const ListsSlice = createSlice({
           type: "danger",
         });
       } else {
-        console.log("selected list ", action.payload);
         state.selectedList = action.payload;
       }
     },
@@ -48,6 +47,7 @@ export const ListsSlice = createSlice({
       }
     },
     editList: (state, action) => {
+      //todo: edit list
       state.lists.forEach(function (arrayItem, index) {
         if (state.lists[action.payload.id].editable == false) {
           showMessage({
@@ -69,6 +69,7 @@ export const ListsSlice = createSlice({
   },
 });
 
-export const { addList, editList, updateActiveCatagory, deleteList } = ListsSlice.actions;
+export const { addList, editList, updateActiveCatagory, deleteList } =
+  ListsSlice.actions;
 
 export default ListsSlice.reducer;
