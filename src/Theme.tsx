@@ -1,14 +1,16 @@
 import React, { useRef } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Platform } from "react-native";
 import { FAB, Text, Input } from "react-native-elements";
 import {
+  Modal,
   Checkbox,
   Button,
   IconButton,
   DarkTheme,
   Appbar,
   Surface,
-  withTheme,
+  Menu,
+  Divider,
 } from "react-native-paper";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
@@ -133,6 +135,10 @@ export function changeNavigationBarName(newTitle: string) {
   appBarTitle = newTitle;
 }
 
+const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
+
+var isMenuVisible = false;
+
 export function ThemedNavigationBarTasks({ navigation, previous }: any) {
   const navTitle = useSelector((state: RootState) => state.app.navTitle);
   return (
@@ -142,17 +148,38 @@ export function ThemedNavigationBarTasks({ navigation, previous }: any) {
           onPress={() => {
             navigation.goBack();
           }}
+          color={primaryAccentColor}
         />
       ) : (
-        <Appbar.Action
-          icon={"apps"}
-          onPress={() => {
-            navigation.navigate("Lists");
-          }}
-        />
+        <>
+          <Appbar.Action
+            icon={"apps"}
+            color={primaryAccentColor}
+            onPress={() => {
+              navigation.navigate("Lists");
+            }}
+          />
+          <Appbar.Content title={navTitle} />
+          <Menu
+            visible={isMenuVisible}
+            anchor={
+              <Appbar.Action
+                icon={MORE_ICON}
+                color={primaryAccentColor}
+                onPress={() => {
+                  isMenuVisible = true;
+                }}
+              />
+            }
+            onDismiss={() => {}}
+          >
+            <Menu.Item onPress={() => {}} title="Delete List" />
+            <Menu.Item onPress={() => {}} title="Remove Checked" />
+            <Divider />
+            <Menu.Item onPress={() => {}} title="Settings" />
+          </Menu>
+        </>
       )}
-
-      <Appbar.Content title={navTitle} />
     </Appbar.Header>
   );
 }
@@ -198,6 +225,10 @@ const themedVariantButton = (props: any) => {
       ></Button>
     </View>
   );
+};
+
+const themedOverlay = (props: any) => {
+  return <Modal {...props} />;
 };
 
 const themedEditIcon = (props: any) => {
@@ -284,6 +315,12 @@ const themedContainerRow = (props: any) => {
 const themedTextHighEmpasis = (props: any) => {
   return (
     <Text h4 numberOfLines={1} style={styles.textHighEmpasis} {...props}></Text>
+  );
+};
+
+const themedTextHighEmpasisMultiLine = (props: any) => {
+  return (
+    <Text h4 numberOfLines={4} style={styles.textHighEmpasis} {...props}></Text>
   );
 };
 
@@ -376,4 +413,8 @@ export const Theme = {
   themedSurface,
   paperTheme,
   themedTextMediumEmpasis,
+  themedTextHighEmpasisMultiLine,
+  primaryBackgroundColor,
+  primaryAccentColor,
+  themedOverlay,
 };

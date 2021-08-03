@@ -63,6 +63,7 @@ export const ListsSlice = createSlice({
       state.lists.forEach(function (arrayItem, index) {
         if (action.payload.id == state.lists[index].id) {
           state.lists.splice(index, 1);
+          state.count--;
         }
       });
     },

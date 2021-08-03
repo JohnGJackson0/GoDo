@@ -44,9 +44,9 @@ const ListItem = (props: any, { navigation }: any) => {
       >
         <Theme.themedSurface style={styles.item}>
           <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
-          <Theme.themedTextHighEmpasis>
+          <Theme.themedTextMediumEmpasis>
             {"\n Tasks " + taskCount}
-          </Theme.themedTextHighEmpasis>
+          </Theme.themedTextMediumEmpasis>
         </Theme.themedSurface>
       </TouchableOpacity>
     );
@@ -72,9 +72,9 @@ const ListItem = (props: any, { navigation }: any) => {
       >
         <Theme.themedSurface style={styles.item}>
           <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
-          <Theme.themedTextHighEmpasis>
+          <Theme.themedTextMediumEmpasis>
             {"\n Tasks " + props.taskCount}
-          </Theme.themedTextHighEmpasis>
+          </Theme.themedTextMediumEmpasis>
           <View style={styles.editIcon}>
             <Theme.themedEditIcon
               onPress={() => {

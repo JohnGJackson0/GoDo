@@ -58,10 +58,43 @@ export const TasksSlice = createSlice({
         }
       });
     },
+    removeAllFromList: (state, action) => {
+      for (var i = state.tasks.length - 1; i >= 0; i--) {
+        if (action.payload == state.tasks[i].list.id) {
+          state.tasks.splice(i, 1);
+        }
+      }
+    },
+    moveAllTasksOnListToAll: (state, action) => {
+      state.tasks.forEach(function (item, index) {
+        if (action.payload.id == state.tasks[index].list.id) {
+          state.tasks[index].list.id = 0;
+        }
+      });
+    },
+    removeChecked: (state, action) => {
+      for (var i = state.tasks.length - 1; i >= 0; i--) {
+        if (
+          action.payload.id == state.tasks[i].list.id ||
+          action.payload.id == 0
+        ) {
+          if (state.tasks[i].checked) {
+            state.tasks.splice(i, 1);
+          }
+        }
+      }
+    },
   },
 });
 
-export const { addTask, removeTask, updateChecked, updateTask } =
-  TasksSlice.actions;
+export const {
+  addTask,
+  removeTask,
+  updateChecked,
+  updateTask,
+  removeAllFromList,
+  moveAllTasksOnListToAll,
+  removeChecked,
+} = TasksSlice.actions;
 
 export default TasksSlice.reducer;

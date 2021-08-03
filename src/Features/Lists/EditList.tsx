@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { Theme } from "../../Theme";
 import { useDispatch } from "react-redux";
-import { editList, deleteList } from "./ListsSlice";
+import { editList, deleteList, updateActiveCatagory } from "./ListsSlice";
+import {
+  moveAllTasksOnListToAll,
+  removeAllFromList,
+} from "../Tasks/TasksSlice";
+import { Portal } from "react-native-portalize";
+import { updateAppTitle } from "../AppSlice";
 
 const EditList = (props: any) => {
   const [listInput, setListInput] = useState(props.list.name);
   const dispatch = useDispatch();
+  const [isDeleteOverlayVisible, setIsDeleteOverlayVisible] = useState(false);
 
   const handleListName = (list: string) => {
     setListInput(list);
@@ -31,11 +38,48 @@ const EditList = (props: any) => {
       </View>
       <Theme.themedLargeDeleteIcon
         onPress={() => {
-          console.log("delete icon clicked");
-          dispatch(deleteList({ id: props.list.id }));
-          props.onClose();
+          setIsDeleteOverlayVisible(true);
+          //props.onClose();
         }}
       ></Theme.themedLargeDeleteIcon>
+
+      <Portal>
+        <Theme.themedOverlay
+          visible={isDeleteOverlayVisible}
+          onDismiss={() => {
+            setIsDeleteOverlayVisible(false);
+          }}
+        >
+          <Theme.themedTextHighEmpasisMultiLine>
+            Would you like to remove all tasks on the list, or move them to
+            'all?'
+          </Theme.themedTextHighEmpasisMultiLine>
+
+          <Theme.themedButton
+            onPress={() => {
+              dispatch(deleteList({ id: props.list.id }));
+              dispatch(removeAllFromList(props.list.id));
+              props.onClose();
+              dispatch(updateActiveCatagory({ id: 0 }));
+              dispatch(updateAppTitle("All"));
+            }}
+          >
+            Remove all
+          </Theme.themedButton>
+
+          <Theme.themedButton
+            onPress={() => {
+              dispatch(deleteList({ id: props.list.id }));
+              dispatch(moveAllTasksOnListToAll({ id: props.list.id }));
+              props.onClose();
+              dispatch(updateActiveCatagory({ id: 0 }));
+              dispatch(updateAppTitle("All"));
+            }}
+          >
+            Keep tasks, move them to 'All'
+          </Theme.themedButton>
+        </Theme.themedOverlay>
+      </Portal>
     </Theme.themedContainer>
   );
 };

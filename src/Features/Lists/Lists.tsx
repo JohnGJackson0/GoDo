@@ -72,6 +72,10 @@ export function Lists(props: any) {
     modalizeRef.current?.open();
   };
 
+  const onClose = () => {
+    modalizeRef.current?.close();
+  };
+
   const onEdit = (listToUpdate: any) => {
     if (listToUpdate == list) {
       modalizeRef.current?.open();
@@ -84,9 +88,6 @@ export function Lists(props: any) {
     props.navigation.goBack();
   };
 
-  const onClose = () => {
-    modalizeRef.current?.close();
-  };
 
   return (
     <Theme.themedFullScreenContainer>
