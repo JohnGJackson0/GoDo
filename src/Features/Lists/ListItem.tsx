@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Theme } from "../../Theme";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { updateActiveCatagory } from "./ListsSlice";
+import { updateAppTitle } from "../AppSlice";
+import { Surface, withTheme, Text, IconButton } from "react-native-paper";
 
 const styles = StyleSheet.create({
   item: {
@@ -25,9 +26,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const ListItem = (props: any, { navigation }: any) => {
+const ListItem = (props: any) => {
   const dispatch = useDispatch();
   const [taskCount, setTaskCount] = useState(props.taskCount);
+  const { colors } = props.theme;
 
   useEffect(() => {
     setTaskCount(props.taskCount);
@@ -38,27 +40,38 @@ const ListItem = (props: any, { navigation }: any) => {
       <TouchableOpacity
         onPress={() => {
           dispatch(updateActiveCatagory(props.list));
-          props.goBack(props.list.name);
+          dispatch(updateAppTitle(props.list.name));
+          props.goBack();
         }}
         style={styles.item}
       >
-        <Theme.themedSurface style={styles.item}>
-          <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
-          <Theme.themedTextMediumEmpasis>
+        <Surface style={[{ elevation: 4 }, styles.item]}>
+          <Text
+            numberOfLines={1}
+            style={{ margin: 5, color: colors.accent, fontSize: 24 }}
+          >
+            {props.list.name}
+          </Text>
+          <Text
+            style={{ margin: 5, color: colors.textMediumEmpasis, fontSize: 24 }}
+          >
             {"\n Tasks " + taskCount}
-          </Theme.themedTextMediumEmpasis>
-        </Theme.themedSurface>
+          </Text>
+        </Surface>
       </TouchableOpacity>
     );
   } else if (props.list.empty) {
     return <View style={[styles.item, styles.itemInvisible]} />;
   } else if (props.list.key == "UIAdd") {
     return (
-      <Theme.themedAddIcon
+      <IconButton
         style={[styles.item, styles.itemAdd]}
+        color={colors.accent}
         onPress={() => {
           props.onAdd();
         }}
+        icon="plus"
+        size={90}
       />
     );
   } else {
@@ -66,27 +79,34 @@ const ListItem = (props: any, { navigation }: any) => {
       <TouchableOpacity
         onPress={() => {
           dispatch(updateActiveCatagory(props.list));
-          props.goBack(props.list.name);
+          dispatch(updateAppTitle(props.list.name));
+          props.goBack();
         }}
         style={styles.item}
       >
-        <Theme.themedSurface style={styles.item}>
-          <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
-          <Theme.themedTextMediumEmpasis>
+        <Surface style={[{ elevation: 4 }, styles.item]}>
+          <Text style={{ margin: 5, color: colors.accent, fontSize: 24 }}>
+            {props.list.name}
+          </Text>
+          <Text
+            style={{ margin: 5, color: colors.textMediumEmpasis, fontSize: 24 }}
+          >
             {"\n Tasks " + props.taskCount}
-          </Theme.themedTextMediumEmpasis>
+          </Text>
           <View style={styles.editIcon}>
-            <Theme.themedEditIcon
+            <IconButton
+              icon="pencil-outline"
+              color={colors.accent}
+              size={20}
               onPress={() => {
                 props.onEdit(props.list);
-                Theme.changeNavigationBarName(props.list.name);
               }}
             />
           </View>
-        </Theme.themedSurface>
+        </Surface>
       </TouchableOpacity>
     );
   }
 };
 
-export default ListItem;
+export default withTheme(ListItem);

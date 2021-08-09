@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Platform } from "react-native";
 import { Appbar, Menu, Divider } from "react-native-paper";
-import { Theme } from "../../Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Modalize } from "react-native-modalize";
@@ -9,6 +8,8 @@ import { Portal } from "react-native-portalize";
 import EditList from "../Lists/EditList";
 import { removeChecked } from "./TasksSlice";
 import { useDispatch } from "react-redux";
+import { withTheme } from "react-native-paper";
+import { updateAppTitle } from "../AppSlice";
 
 const Header = (props: any) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,6 +18,8 @@ const Header = (props: any) => {
   const listData = useSelector((state: RootState) => state.lists);
   const modalizeRef = useRef<Modalize>(null);
   const [title, setTitle] = useState(navTitle);
+  const dispatch = useDispatch();
+  const { colors } = props.theme;
 
   useEffect(() => {
     setTitle(navTitle);
@@ -30,41 +33,43 @@ const Header = (props: any) => {
     modalizeRef.current?.close();
   };
 
-  //todo: on delete remove all tasks or move to all?  and handle the navigation
-
   const closeMenu = () => setIsVisible(false);
-  const dispatch = useDispatch();
 
   return (
     <>
       <Appbar.Header
         style={{
-          backgroundColor: Theme.primaryBackgroundColor,
+          backgroundColor: colors.background,
         }}
       >
         {props.previous ? (
-          <Appbar.BackAction
-            onPress={() => {
-              props.navigation.goBack();
-            }}
-            color={Theme.primaryAccentColor}
-          />
+          <>
+            <Appbar.BackAction
+              onPress={() => {
+                dispatch(updateAppTitle(listData.selectedList.name));
+                props.navigation.goBack();
+              }}
+              color={colors.accent}
+            />
+            <Appbar.Content title={title} color={colors.text} />
+          </>
         ) : (
           <>
             <Appbar.Action
               icon={"apps"}
-              color={Theme.primaryAccentColor}
+              color={colors.accent}
               onPress={() => {
                 props.navigation.navigate("Lists");
+                dispatch(updateAppTitle("Select List"));
               }}
             />
-            <Appbar.Content title={title} />
+            <Appbar.Content title={title} color={colors.text} />
             <Menu
               visible={isVisible}
               anchor={
                 <Appbar.Action
                   icon={MORE_ICON}
-                  color={Theme.primaryAccentColor}
+                  color={colors.accent}
                   onPress={() => {
                     setIsVisible(true);
                   }}
@@ -84,6 +89,7 @@ const Header = (props: any) => {
                   <Menu.Item
                     onPress={() => {
                       props.navigation.navigate("Settings");
+                      dispatch(updateAppTitle("Settings"));
                     }}
                     title="Settings"
                   />
@@ -106,6 +112,7 @@ const Header = (props: any) => {
                   <Menu.Item
                     onPress={() => {
                       props.navigation.navigate("Settings");
+                      dispatch(updateAppTitle("Settings"));
                     }}
                     title="Settings"
                   />
@@ -118,17 +125,21 @@ const Header = (props: any) => {
 
       <Portal>
         <Modalize
-          modalStyle={Theme.themedModalStyle}
+          modalStyle={{ backgroundColor: colors.opactiyBackground }}
           adjustToContentHeight={true}
           ref={modalizeRef}
-          overlayStyle={Theme.themedModalBackgroundStyle}
+          overlayStyle={{ backgroundColor: colors.opactiyBackground }}
           withHandle={false}
         >
-          <EditList onClose={onClose} list={listData.selectedList} />
+          <EditList
+            onClose={onClose}
+            list={listData.selectedList}
+            theme={props.theme}
+          />
         </Modalize>
       </Portal>
     </>
   );
 };
 
-export default Header;
+export default withTheme(Header);

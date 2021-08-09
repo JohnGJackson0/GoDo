@@ -1,20 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, ScrollView } from "react-native";
-import { Theme } from "../../Theme";
-import { EditTask } from "./EditTask";
-import { CreateTask } from "./CreateTask";
+import EditTask from "./EditTask";
+import CreateTask from "./CreateTask";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Task from "./Task";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
+import { withTheme, FAB, Text } from "react-native-paper";
 
-export function Tasks(props: any) {
+function Tasks(props: any) {
   const tasks = useSelector((state: RootState) => state.tasks);
   const [task, setTask] = useState("");
+  const modalizeRef = useRef<Modalize>(null);
   const selectedList = useSelector(
     (state: RootState) => state.lists.selectedList
   );
+  const { colors } = props.theme;
 
   useEffect(() => {
     modalizeRef.current?.open();
@@ -34,11 +36,11 @@ export function Tasks(props: any) {
     return items;
   }
 
-  const modalizeRef = useRef<Modalize>(null);
-
   const onOpen = () => {
+    if (task == "") {
+      modalizeRef.current?.open();
+    }
     setTask("");
-    modalizeRef.current?.open();
   };
 
   const onModifyPressed = (taskToUpdate: any) => {
@@ -49,7 +51,7 @@ export function Tasks(props: any) {
   };
 
   return (
-    <Theme.themedFullScreenContainer>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View
         style={{
           position: "absolute",
@@ -61,9 +63,15 @@ export function Tasks(props: any) {
       >
         <ScrollView>{renderTaskList()}</ScrollView>
 
-        <Theme.themedExtendedFab
-          title="Add"
-          placement="right"
+        <FAB
+          style={{
+            position: "absolute",
+            margin: 16,
+            right: 0,
+            bottom: 0,
+            backgroundColor: colors.accent,
+          }}
+          icon="plus"
           onPress={() => {
             onOpen();
           }}
@@ -71,16 +79,22 @@ export function Tasks(props: any) {
 
         <Portal>
           <Modalize
-            modalStyle={Theme.themedModalStyle}
+            modalStyle={{ backgroundColor: colors.opactiyBackground }}
             adjustToContentHeight={true}
             ref={modalizeRef}
-            overlayStyle={Theme.themedModalBackgroundStyle}
+            overlayStyle={{ backgroundColor: colors.opactiyBackground }}
             withHandle={false}
           >
-            {task == "" ? <CreateTask /> : <EditTask task={task} />}
+            {task == "" ? (
+              <CreateTask theme={props.theme} />
+            ) : (
+              <EditTask task={task} theme={props.theme} />
+            )}
           </Modalize>
         </Portal>
       </View>
-    </Theme.themedFullScreenContainer>
+    </View>
   );
 }
+
+export default withTheme(Tasks);

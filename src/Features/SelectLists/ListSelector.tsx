@@ -1,39 +1,51 @@
 import React from "react";
-import { Theme } from "../../Theme";
+import { View, FlatList, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
+import { withTheme, Text } from "react-native-paper";
 import { RootState } from "../../store";
-import { TouchableOpacity } from "react-native";
 
 const ListItem = (props: any) => {
   return (
-    <Theme.themedContainer>
+    <View style={{ width: "100%", backgroundColor: props.colors.background }}>
       <TouchableOpacity
         onPress={() => {
           props.onSelected(props.list);
         }}
       >
-        <Theme.themedTextAccent>{props.list.name}</Theme.themedTextAccent>
+        <Text
+          numberOfLines={1}
+          style={{ margin: 5, color: props.colors.accent, fontSize: 24 }}
+        >
+          {props.list.name}
+        </Text>
       </TouchableOpacity>
-    </Theme.themedContainer>
+    </View>
   );
 };
 
 const ListSelector = (props: any) => {
   const listData = useSelector((state: RootState) => state.lists);
+  const { colors } = props.theme;
 
   const renderItem = ({ item }: any) => (
-    <ListItem list={item} onSelected={props.onSelected} />
+    <ListItem
+      list={item}
+      onSelected={props.onSelected}
+      colors={colors}
+      theme={props.theme}
+    />
   );
 
   return (
-    <Theme.themedContainer>
-      <Theme.themedFlatList
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <FlatList
+        style={{ flex: 1 }}
         data={listData.lists}
         renderItem={renderItem}
         keyExtractor={(item: any) => item.id.toString()}
       />
-    </Theme.themedContainer>
+    </View>
   );
 };
 
-export default ListSelector;
+export default withTheme(ListSelector);

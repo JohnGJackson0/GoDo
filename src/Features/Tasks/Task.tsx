@@ -1,11 +1,12 @@
 import React from "react";
-import { Theme } from "../../Theme";
 import { TouchableOpacity, View } from "react-native";
+import { Checkbox, Text, IconButton, withTheme } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { updateChecked, removeTask } from "./TasksSlice";
 
 const Task = (props: any) => {
   const dispatch = useDispatch();
+  const { colors } = props.theme;
 
   const handleChange = () => {
     dispatch(
@@ -14,7 +15,13 @@ const Task = (props: any) => {
   };
 
   return (
-    <Theme.themedContainerRow>
+    <View
+      style={{
+        flexDirection: "row",
+        flexWrap: "wrap",
+        backgroundColor: colors.background,
+      }}
+    >
       <TouchableOpacity
         onPress={() => {
           handleChange();
@@ -26,7 +33,7 @@ const Task = (props: any) => {
         }}
       >
         <View style={{ width: "15%" }}>
-          <Theme.ThemedCheckbox
+          <Checkbox
             status={props.task.checked ? "checked" : "unchecked"}
             onPress={() => {
               handleChange();
@@ -35,33 +42,50 @@ const Task = (props: any) => {
         </View>
         <View style={{ width: "70%" }}>
           {props.task.checked ? (
-            <Theme.themedTextHighEmpasisStrikeThrough>
+            <Text
+              numberOfLines={1}
+              style={{
+                margin: 5,
+                color: colors.textHighEmpasis,
+                textDecorationLine: "line-through",
+                fontSize: 24,
+              }}
+            >
               {props.task.name}
-            </Theme.themedTextHighEmpasisStrikeThrough>
+            </Text>
           ) : (
-            <Theme.themedTextHighEmpasis>
+            <Text
+              numberOfLines={1}
+              style={{ margin: 5, color: colors.textHighEmpasis, fontSize: 24 }}
+            >
               {props.task.name}
-            </Theme.themedTextHighEmpasis>
+            </Text>
           )}
         </View>
         <View style={{ width: "15%" }}>
           {props.task.checked ? (
-            <Theme.themedDeleteIcon
+            <IconButton
+              icon="delete-outline"
               onPress={() => {
                 dispatch(removeTask(props.task));
               }}
-            ></Theme.themedDeleteIcon>
+              color={colors.accent}
+              size={20}
+            />
           ) : (
-            <Theme.themedEditIcon
+            <IconButton
+              icon="pencil-outline"
+              color={colors.accent}
               onPress={() => {
                 props.openEditModal(props.task);
               }}
-            ></Theme.themedEditIcon>
+              size={20}
+            />
           )}
         </View>
       </TouchableOpacity>
-    </Theme.themedContainerRow>
+    </View>
   );
 };
 
-export default Task;
+export default withTheme(Task);

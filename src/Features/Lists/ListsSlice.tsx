@@ -70,7 +70,7 @@ export const ListsSlice = createSlice({
   },
 });
 
-export const { addList, editList, updateActiveCatagory, deleteList } =
+export const { addList, editList, deleteList, updateActiveCatagory } =
   ListsSlice.actions;
 
 export default ListsSlice.reducer;

@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
-import { Theme } from "../../Theme";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { useDispatch } from "react-redux";
 import { addTask } from "./TasksSlice";
-import ListSelector from "../SelectLists/ListSelector";
-import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
+import ListSelector from "../SelectLists/ListSelector";
 
-export function CreateTask(props: any) {
+function CreateTask(props: any) {
   const listData = useSelector((state: RootState) => state.lists);
   const [taskInput, setTaskInput] = useState("");
   const [list, setList] = useState(listData.selectedList);
   const dispatch = useDispatch();
   const [displayListsSelector, setDisplayListsSelector] = useState(false);
-
-  useEffect(() => {
-    setList(listData.selectedList);
-  }, [listData.selectedList]);
 
   const handleCreatetask = (task: string) => {
     setTaskInput(task);
@@ -29,44 +24,88 @@ export function CreateTask(props: any) {
   };
 
   const task = (
-    <Theme.themedContainer>
-      <View style={{ flexDirection: "row" }}>
-        <View style={{ flexGrow: 1 }}>
-          <Theme.themedInput
+    <View
+      style={{
+        width: "100%",
+        backgroundColor: props.theme.colors.background,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ flexGrow: 1, margin: 5 }}>
+          <TextInput
+            theme={props.theme}
+            dense={true}
             placeholder="enter a task"
             onChangeText={handleCreatetask}
             value={taskInput}
-          ></Theme.themedInput>
+          ></TextInput>
         </View>
 
-        <Theme.themedEnter
+        <IconButton
+          icon="arrow-right-circle-outline"
+          color={props.theme.colors.accent}
+          {...props}
+          size={30}
           onPress={() => {
             dispatch(addTask({ name: taskInput, onList: list }));
           }}
         />
       </View>
       <View style={{ flexDirection: "row" }}>
-        <Theme.themedListButton
-          onPress={() => {
-            setDisplayListsSelector(!displayListsSelector);
+        <View
+          style={{
+            margin: "5px",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "20%",
           }}
-          label={list.name}
-        ></Theme.themedListButton>
+        >
+          <IconButton
+            icon="view-list-outline"
+            color={props.theme.colors.accent}
+            {...props}
+            size={30}
+            onPress={() => {
+              setDisplayListsSelector(!displayListsSelector);
+            }}
+          ></IconButton>
+
+          <Text numberOfLines={2} style={{ color: props.theme.colors.accent }}>
+            {list.name}
+          </Text>
+        </View>
       </View>
-    </Theme.themedContainer>
+    </View>
   );
   return (
     <>
       {displayListsSelector == true ? (
-        <Theme.themedFullScreenContainer>
+        <View
+          style={{ flex: 1, backgroundColor: props.theme.colors.background }}
+        >
           <ScrollView>
             <ListSelector onSelected={onSelected} />
           </ScrollView>
           {task}
-        </Theme.themedFullScreenContainer>
+        </View>
       ) : (
-        <Theme.themedContainer>{task}</Theme.themedContainer>
+        <View
+          style={{
+            width: "100%",
+            backgroundColor: props.theme.colors.background,
+          }}
+        >
+          {task}
+        </View>
       )}
     </>
   );
 }
+
+export default withTheme(CreateTask);

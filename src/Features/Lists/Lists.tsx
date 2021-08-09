@@ -1,15 +1,14 @@
 import React, { useRef, useState, useEffect } from "react";
 import ListItem from "./ListItem";
-import { Theme } from "../../Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Modalize } from "react-native-modalize";
-import { AddLists } from "./AddLists";
+import AddLists from "./AddLists";
 import EditList from "./EditList";
 import { Portal } from "react-native-portalize";
-import { View } from "react-native";
+import { View, FlatList } from "react-native";
 import { useDispatch } from "react-redux";
-import { updateAppTitle } from "../AppSlice";
+import { withTheme } from "react-native-paper";
 
 const formatData = (data: Array<any>, numColumns: number) => {
   var value = [...data];
@@ -30,11 +29,12 @@ const formatData = (data: Array<any>, numColumns: number) => {
   return value;
 };
 
-export function Lists(props: any) {
+function Lists(props: any) {
   const [list, setList] = useState("");
   const listData = useSelector((state: RootState) => state.lists);
   const dispatch = useDispatch();
   const taskData = useSelector((state: RootState) => state.tasks);
+  const { colors } = props.theme;
 
   useEffect(() => {
     modalizeRef.current?.open();
@@ -83,14 +83,12 @@ export function Lists(props: any) {
     setList(listToUpdate);
   };
 
-  const goBack = (name: string) => {
-    dispatch(updateAppTitle(name));
+  const goBack = () => {
     props.navigation.goBack();
   };
 
-
   return (
-    <Theme.themedFullScreenContainer>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View
         style={{
           position: "absolute",
@@ -100,7 +98,7 @@ export function Lists(props: any) {
           top: 0,
         }}
       >
-        <Theme.themedFlatList
+        <FlatList
           data={formatData(listData.lists, 2)}
           renderItem={renderItem}
           numColumns={2}
@@ -108,21 +106,21 @@ export function Lists(props: any) {
       </View>
       <Portal>
         <Modalize
-          modalStyle={Theme.themedModalStyle}
+          modalStyle={{ backgroundColor: colors.opactiyBackground }}
           adjustToContentHeight={true}
           ref={modalizeRef}
-          overlayStyle={Theme.themedModalBackgroundStyle}
+          overlayStyle={{ backgroundColor: colors.opactiyBackground }}
           withHandle={false}
         >
           {list == "" ? (
-            <AddLists onClose={onClose} />
+            <AddLists onClose={onClose} theme={props.theme} />
           ) : (
-            <EditList onClose={onClose} list={list} />
+            <EditList onClose={onClose} list={list} theme={props.theme} />
           )}
         </Modalize>
       </Portal>
-    </Theme.themedFullScreenContainer>
+    </View>
   );
 }
 
-export default Lists;
+export default withTheme(Lists);
