@@ -8,11 +8,15 @@ import Task from "./Task";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { withTheme, FAB, Text } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import { updateAppTitle } from "../AppSlice";
 
 function Tasks(props: any) {
+  const dispatch = useDispatch();
   const tasks = useSelector((state: RootState) => state.tasks);
   const [task, setTask] = useState("");
   const modalizeRef = useRef<Modalize>(null);
+  const listData = useSelector((state: RootState) => state.lists);
   const selectedList = useSelector(
     (state: RootState) => state.lists.selectedList
   );
@@ -21,6 +25,10 @@ function Tasks(props: any) {
   useEffect(() => {
     modalizeRef.current?.open();
   }, [task]);
+
+  useEffect(() => {
+    dispatch(updateAppTitle(listData.selectedList.name));
+  });
 
   function renderTaskList() {
     const items: any = [];
