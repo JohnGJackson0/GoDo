@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
 import ListSelector from "../SelectLists/ListSelector";
+import { updateActiveCatagory } from "../Lists/ListsSlice";
 
 function CreateTask(props: any) {
   const listData = useSelector((state: RootState) => state.lists);
@@ -54,6 +55,7 @@ function CreateTask(props: any) {
           size={30}
           onPress={() => {
             dispatch(addTask({ name: taskInput, onList: list }));
+            dispatch(updateActiveCatagory(list))
           }}
         />
       </View>

@@ -7,12 +7,13 @@ import { RootState } from "../../store";
 import Task from "./Task";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
-import { withTheme, FAB, Text } from "react-native-paper";
+import { withTheme, FAB } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { updateAppTitle } from "../AppSlice";
 
 function Tasks(props: any) {
   const dispatch = useDispatch();
+  const navTitle = useSelector((state: RootState) => state.app.navTitle);
   const tasks = useSelector((state: RootState) => state.tasks);
   const [task, setTask] = useState("");
   const modalizeRef = useRef<Modalize>(null);
@@ -27,7 +28,9 @@ function Tasks(props: any) {
   }, [task]);
 
   useEffect(() => {
-    dispatch(updateAppTitle(listData.selectedList.name));
+    if (navTitle != "Settings") {
+      dispatch(updateAppTitle(listData.selectedList.name));
+    }
   });
 
   function renderTaskList() {

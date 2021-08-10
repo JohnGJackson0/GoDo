@@ -4,19 +4,20 @@ import { useDispatch } from "react-redux";
 import { updateTask } from "./TasksSlice";
 import ListSelector from "../SelectLists/ListSelector";
 import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
+import { updateActiveCatagory } from "../Lists/ListsSlice";
 
 function EditTask(props: any) {
   const [taskInput, setTaskInput] = useState(props.task.name || "");
   const dispatch = useDispatch();
   const [displayListsSelector, setDisplayListsSelector] = useState(false);
-  const [selectedList, setSelectedList] = useState(props.task.list);
+  const [list, setList] = useState(props.task.list);
 
   const handleCreatetask = (task: string) => {
     setTaskInput(task);
   };
 
   const onSelected = (list: any) => {
-    setSelectedList(list);
+    setList(list);
     setDisplayListsSelector(false);
   };
 
@@ -51,7 +52,14 @@ function EditTask(props: any) {
               updateTask({
                 name: taskInput,
                 id: props.task.id,
-                list: selectedList,
+                list: list,
+              })
+            );
+            dispatch(
+              updateActiveCatagory({
+                name: list.name,
+                id: list.id,
+                editable: list.editable,
               })
             );
           }}
@@ -75,7 +83,7 @@ function EditTask(props: any) {
           }}
         />
         <Text numberOfLines={2} style={{ color: props.theme.colors.accent }}>
-          {selectedList.name}
+          {list.name}
         </Text>
       </View>
     </View>
