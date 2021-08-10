@@ -3,37 +3,15 @@ import { View, FlatList, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import { withTheme, Text } from "react-native-paper";
 import { RootState } from "../../store";
-
-const ListItem = (props: any) => {
-  return (
-    <View style={{ width: "100%", backgroundColor: props.colors.background }}>
-      <TouchableOpacity
-        onPress={() => {
-          props.onSelected(props.list);
-        }}
-      >
-        <Text
-          numberOfLines={1}
-          style={{ margin: 5, color: props.colors.accent, fontSize: 24 }}
-        >
-          {props.list.name}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
+import { Catagory } from "./Catagory";
 
 const ListSelector = (props: any) => {
   const listData = useSelector((state: RootState) => state.lists);
   const { colors } = props.theme;
+  console.log(props.theme);
 
   const renderItem = ({ item }: any) => (
-    <ListItem
-      list={item}
-      onSelected={props.onSelected}
-      colors={colors}
-      theme={props.theme}
-    />
+    <Catagory list={item} onSelected={props.onSelected} theme={props.theme} />
   );
 
   return (
@@ -48,4 +26,4 @@ const ListSelector = (props: any) => {
   );
 };
 
-export default withTheme(ListSelector);
+export default ListSelector;

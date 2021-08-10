@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { configureFonts } from "react-native-paper";
-import { LightTheme } from "./Themes/Themes";
+import { DarkTheme } from "./Themes/Themes";
 export interface AppState {
   navTitle: string;
   theme: any;
@@ -8,7 +7,7 @@ export interface AppState {
 
 const initialState: AppState = {
   navTitle: "All",
-  theme: LightTheme,
+  theme: DarkTheme,
 };
 
 export const AppSlice = createSlice({

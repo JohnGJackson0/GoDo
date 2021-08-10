@@ -90,7 +90,7 @@ function CreateTask(props: any) {
           style={{ flex: 1, backgroundColor: props.theme.colors.background }}
         >
           <ScrollView>
-            <ListSelector onSelected={onSelected} />
+            <ListSelector onSelected={onSelected} theme={props.theme} />
           </ScrollView>
           {task}
         </View>

@@ -62,6 +62,7 @@ function Lists(props: any) {
         onAdd={onAdd}
         onEdit={onEdit}
         goBack={goBack}
+        theme={props.theme}
       ></ListItem>
     );
   };
