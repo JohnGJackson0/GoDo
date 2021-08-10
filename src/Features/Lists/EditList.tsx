@@ -86,7 +86,13 @@ const EditList = (props: any) => {
                   dispatch(deleteList({ id: props.list.id }));
                   dispatch(removeAllFromList(props.list.id));
                   props.onClose();
-                  dispatch(updateActiveCatagory({ id: 0 }));
+                  dispatch(
+                    updateActiveCatagory({
+                      name: "All",
+                      id: 0,
+                      editable: false,
+                    })
+                  );
                   dispatch(updateAppTitle("All"));
                 }}
                 mode="contained"
