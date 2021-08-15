@@ -15,7 +15,6 @@ const Settings = (props: any) => {
     },
     label: {
       margin: 5,
-      ellipsizeMode: "head",
       fontSize: 24,
     },
   });
