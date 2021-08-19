@@ -1,11 +1,16 @@
 {
-  "name": "todo",
-  "displayName": "todo",
   "expo": {
-    "name": "todo",
-    "slug": "todo",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-    ]
+    "name": "GODO",
+    "icon": "./icon.jpg",
+    "version": "1.0.1",
+    "slug": "GODO",
+    "ios": {
+      "bundleIdentifier": "com.tanagr.godo",
+      "buildNumber": "1.0.1"
+    },
+    "android": {
+      "package": "com.tanagr.godo",
+      "versionCode": 1
+    }
   }
 }
