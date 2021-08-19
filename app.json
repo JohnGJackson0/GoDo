@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "GODO",
-    "icon": "./icon.jpg",
+    "icon": "./icon.png",
     "version": "1.0.1",
     "slug": "GODO",
     "ios": {
