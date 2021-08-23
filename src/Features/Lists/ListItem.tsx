@@ -31,9 +31,18 @@ const ListItem = (props: any) => {
   const [taskCount, setTaskCount] = useState(props.taskCount);
   const { colors } = props.theme;
 
+  var height = Dimensions.get("window").width / 2 - 6;
+  var width = Dimensions.get("window").width / 2 - 6;
+
   useEffect(() => {
     setTaskCount(props.taskCount);
   }, [props.taskCount]);
+
+  useEffect(() => {
+    height = Dimensions.get("window").width / 2 - 6;
+    width = Dimensions.get("window").width / 2 - 6;
+    console.log("Changed");
+  }, [Dimensions.get("window").width]);
 
   if (props.list.editable == false) {
     return (

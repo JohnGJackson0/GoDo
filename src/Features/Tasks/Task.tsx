@@ -28,11 +28,11 @@ const Task = (props: any) => {
         }}
         style={{
           flex: 1,
-          justifyContent: "center",
           flexDirection: "row",
+          width: "100%",
         }}
       >
-        <View style={{ width: "15%" }}>
+        <View style={{ justifyContent: "flex-start" }}>
           <Checkbox
             status={props.task.checked ? "checked" : "unchecked"}
             onPress={() => {
@@ -40,7 +40,7 @@ const Task = (props: any) => {
             }}
           />
         </View>
-        <View style={{ width: "70%" }}>
+        <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
           {props.task.checked ? (
             <Text
               numberOfLines={1}
@@ -62,7 +62,7 @@ const Task = (props: any) => {
             </Text>
           )}
         </View>
-        <View style={{ width: "15%" }}>
+        <View style={{ justifyContent: "flex-end" }}>
           {props.task.checked ? (
             <IconButton
               icon="delete-outline"

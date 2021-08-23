@@ -5,6 +5,7 @@ import { updateTask } from "./TasksSlice";
 import ListSelector from "../SelectLists/ListSelector";
 import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
 import { updateActiveCatagory } from "../Lists/ListsSlice";
+import { updateAppTitle } from "../AppSlice";
 
 function EditTask(props: any) {
   const [taskInput, setTaskInput] = useState(props.task.name || "");
@@ -62,6 +63,7 @@ function EditTask(props: any) {
                 editable: list.editable,
               })
             );
+            dispatch(updateAppTitle(taskInput));
           }}
         />
       </View>
