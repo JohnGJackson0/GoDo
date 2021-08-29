@@ -6,6 +6,7 @@ import { Host } from "react-native-portalize";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import ThemedApp from "./src/Features/Themes/ThemedApp";
+import AuthGateway from "./src/Features/AuthenticationPortal/gateway/authGateway";
 
 let persistor = persistStore(store);
 
@@ -27,7 +28,7 @@ export default function App() {
       <SafeAreaProvider>
         <Provider store={store}>
           <Host>
-            <ThemedApp />
+            <AuthGateway />
           </Host>
         </Provider>
       </SafeAreaProvider>
