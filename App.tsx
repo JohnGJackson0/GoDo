@@ -1,4 +1,5 @@
 import React from "react";
+import { Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { store } from "./src/store";
 import { Provider } from "react-redux";
@@ -7,6 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import ThemedApp from "./src/Features/Themes/ThemedApp";
 import AuthGateway from "./src/Features/AuthenticationPortal/gateway/authGateway";
+import NavigationGateway from "./src/Features/NavigationGateway/NavigationGateway";
 
 let persistor = persistStore(store);
 
@@ -28,7 +30,7 @@ export default function App() {
       <SafeAreaProvider>
         <Provider store={store}>
           <Host>
-            <AuthGateway />
+            <NavigationGateway />
           </Host>
         </Provider>
       </SafeAreaProvider>
