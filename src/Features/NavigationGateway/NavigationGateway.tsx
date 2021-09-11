@@ -3,17 +3,22 @@ import { View, Text } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import AuthGateway from "../AuthenticationPortal/gateway/authGateway";
-import ThemedApp from "../Themes/ThemedApp";
+import MainApp from "../Themes/MainApp";
+import { Provider as PaperProvider } from "react-native-paper";
 
 const NavigationGateway = () => {
+  const theme = useSelector((state: RootState) => state.app.theme);
+
   const authentication = useSelector(
     (state: RootState) => state.authentication
   );
 
   return (
-    <View style={{ flex: 1 }}>
-      {authentication.hasOptedOut === true ? <ThemedApp /> : <AuthGateway />}
-    </View>
+    <PaperProvider theme={theme}>
+      <View style={{ flex: 1 }}>
+        {authentication.hasOptedOut === true ? <MainApp /> : <AuthGateway />}
+      </View>
+    </PaperProvider>
   );
 };
 
