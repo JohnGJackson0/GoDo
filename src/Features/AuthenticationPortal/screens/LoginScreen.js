@@ -95,7 +95,7 @@ const LoginScreen = ({ navigation, theme }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate("ForgotPasswordScreen")}
         >
-          <Text style={styles.forgot}>Forgot your password?</Text>
+          <Paragraph>Forgot your password?</Paragraph>
         </TouchableOpacity>
       </View>
       <Button loading={loading} mode="contained" onPress={onLoginPressed}>
