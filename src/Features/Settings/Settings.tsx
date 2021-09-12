@@ -32,7 +32,7 @@ const Settings = (props: any) => {
         <Text numberOfLines={1} style={styles.label}>
           Account {"\n"}
         </Text>
-        <Account></Account>
+        <Account navigation={props.navigation}></Account>
       </View>
 
       <View style={styles.themesContainer}>

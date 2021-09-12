@@ -22,6 +22,10 @@ function Tasks(props: any) {
     (state: RootState) => state.lists.selectedList
   );
   const { colors } = props.theme;
+  const authentication = useSelector(
+    (state: RootState) => state.authentication
+  );
+
 
   useEffect(() => {
     modalizeRef.current?.open();

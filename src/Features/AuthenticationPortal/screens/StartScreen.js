@@ -31,7 +31,16 @@ const StartScreen = ({ navigation }) => {
         Sign Up
       </Button>
 
-      <Button mode="outlined" onPress={() => dispatch(optOut())}>
+      <Button
+        mode="outlined"
+        onPress={() => {
+          dispatch(optOut());
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Tasks" }],
+          });
+        }}
+      >
         Opt Out
       </Button>
     </Background>

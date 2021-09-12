@@ -6,6 +6,7 @@ import { Text, withTheme, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { optIn } from "../AuthenticationPortal/AuthenticationSlice";
 import { logoutUser } from "../AuthenticationPortal/api/auth-api";
+import firebase from "firebase/app";
 
 const Account = (props: any) => {
   const { colors } = props.theme;
@@ -19,15 +20,16 @@ const Account = (props: any) => {
     text: {
       margin: 5,
     },
+    textImportant: {
+      margin: 5,
+      color: colors.primary,
+      textSize: 14,
+    },
   });
-
-  const authentication = useSelector(
-    (state: RootState) => state.authentication
-  );
 
   return (
     <View style={styles.container}>
-      {authentication.hasOptedOut ? (
+      {firebase.auth().currentUser == null ? (
         <View>
           <Text style={styles.text}>
             Opt into an account for backup and sync across platforms.
@@ -35,6 +37,10 @@ const Account = (props: any) => {
           <Button
             onPress={() => {
               dispatch(optIn());
+              props.navigation.reset({
+                index: 0,
+                routes: [{ name: "AuthLoadingScreen" }],
+              });
             }}
           >
             Opt In
@@ -42,8 +48,27 @@ const Account = (props: any) => {
         </View>
       ) : (
         <View>
-          <Text style={styles.text}>You are logged in. TODO</Text>
-          <Button onPress={logoutUser}>Logout</Button>
+          <Text style={styles.text}>Currently logged in</Text>
+          <Text style={styles.textImportant}>
+            {firebase.auth().currentUser?.displayName}
+          </Text>
+          <Text style={styles.textImportant}>
+            {firebase.auth().currentUser?.email}
+          </Text>
+          <Button
+            onPress={async () => {
+              {
+                console.log(firebase.auth().currentUser);
+              }
+              await firebase.auth().signOut();
+              props.navigation.reset({
+                index: 0,
+                routes: [{ name: "AuthLoadingScreen" }],
+              });
+            }}
+          >
+            Logout
+          </Button>
         </View>
       )}
     </View>
