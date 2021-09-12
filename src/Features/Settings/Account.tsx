@@ -5,6 +5,7 @@ import { RootState } from "../../store";
 import { Text, withTheme, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { optIn } from "../AuthenticationPortal/AuthenticationSlice";
+import { logoutUser } from "../AuthenticationPortal/api/auth-api";
 
 const Account = (props: any) => {
   const { colors } = props.theme;
@@ -40,7 +41,10 @@ const Account = (props: any) => {
           </Button>
         </View>
       ) : (
-        <View></View>
+        <View>
+          <Text style={styles.text}>You are logged in. TODO</Text>
+          <Button onPress={logoutUser}>Logout</Button>
+        </View>
       )}
     </View>
   );
