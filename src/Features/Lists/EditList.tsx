@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
-import { editList, deleteList, updateActiveCatagory } from "./ListsSlice";
+import {
+  editList,
+  deleteList,
+  updateActiveCatagory,
+  updateListsInCloud,
+} from "./ListsSlice";
 import {
   moveAllTasksOnListToAll,
   removeAllFromList,
+  updateTasksInCloud,
 } from "../Tasks/TasksSlice";
 import { Portal } from "react-native-portalize";
 import { updateAppTitle } from "../AppSlice";
@@ -40,6 +46,8 @@ const EditList = (props: any) => {
           color={props.theme.colors.accent}
           onPress={() => {
             dispatch(editList({ id: props.list.id, name: listInput }));
+            dispatch(updateListsInCloud());
+            dispatch(updateTasksInCloud());
             props.onClose();
           }}
           size={30}
@@ -94,6 +102,8 @@ const EditList = (props: any) => {
                     })
                   );
                   dispatch(updateAppTitle("All"));
+                  dispatch(updateListsInCloud());
+                  dispatch(updateTasksInCloud());
                 }}
                 mode="contained"
                 dark={props.theme.colors}
@@ -113,6 +123,8 @@ const EditList = (props: any) => {
                   props.onClose();
                   dispatch(updateActiveCatagory({ id: 0 }));
                   dispatch(updateAppTitle("All"));
+                  dispatch(updateListsInCloud());
+                  dispatch(updateTasksInCloud());
                 }}
               >
                 Keep tasks, move them to 'All'

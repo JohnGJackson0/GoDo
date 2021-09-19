@@ -1,11 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { showMessage } from "react-native-flash-message";
-
+import firebase from "firebase/app";
+import "firebase/firestore";
 export interface ListsState {
   lists: Array<{ name: string; id: number; editable: boolean }>;
   count: number;
   selectedList: any;
 }
+
+export const updateListsInCloud = createAsyncThunk(
+  "ListsSlice/setListsData",
+  async (_: void, ThunkAPI: any) => {
+    try {
+      const userId = ThunkAPI.getState().authentication.userId;
+      const lists = ThunkAPI.getState().lists;
+      await firebase.firestore().doc(`${userId}/lists`).set(lists);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 const initialState: ListsState = {
   selectedList: { name: "All", id: 0, editable: false },
@@ -67,10 +81,13 @@ export const ListsSlice = createSlice({
         }
       });
     },
+    replaceAllLists: (state, action) => {
+      state.lists = action.payload;
+    },
   },
 });
 
-export const { addList, editList, deleteList, updateActiveCatagory } =
+export const { addList, editList, deleteList, updateActiveCatagory, replaceAllLists } =
   ListsSlice.actions;
 
 export default ListsSlice.reducer;

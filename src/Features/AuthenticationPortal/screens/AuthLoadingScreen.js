@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import { setUserId } from "../AuthenticationSlice";
 import { useDispatch } from "react-redux";
 import { replaceAllTasks } from "../../Tasks/TasksSlice";
+import { replaceAllLists, updateActiveCatagory } from "../../Lists/ListsSlice";
+import { updateAppTitle } from "../../AppSlice";
 
 const AuthLoadingScreen = ({ navigation }) => {
   const authentication = useSelector((state) => state.authentication);
@@ -17,22 +19,47 @@ const AuthLoadingScreen = ({ navigation }) => {
     if (user) {
       dispatch(setUserId(user.uid));
       loadTasks(user.uid);
+      loadLists(user.uid);
       navigation.reset({
         index: 0,
         routes: [{ name: "Tasks" }],
       });
+      dispatch(updateAppTitle("All"));
+      dispatch(
+        updateActiveCatagory({
+          name: "All",
+          id: 0,
+          editable: false,
+        })
+      );
 
       async function loadTasks(userId) {
-        const userStoreRef = firebase
+        const userTasksRef = firebase
           .firestore()
-          .collection("user")
-          .doc(userId);
-        const currentUserDoc = await userStoreRef.get();
+          .collection(userId)
+          .doc("tasks");
 
-        if (currentUserDoc.exists) {
+        const tasksDoc = await userTasksRef.get();
+
+        if (tasksDoc.exists) {
           //pass this to redux
-          const data = currentUserDoc.data();
+          const data = tasksDoc.data();
           dispatch(replaceAllTasks(data.tasks));
+        }
+      }
+
+      async function loadLists(userId) {
+        const userListsRef = firebase
+          .firestore()
+          .collection(userId)
+          .doc("lists");
+
+        const listsDoc = await userListsRef.get();
+
+        if (userListsRef.exists) {
+          //pass this to redux
+          const data = listsDoc.data();
+          dispatch(replaceAllLists(data.lists));
         }
       }
     } else if (authentication.hasOptedOut) {

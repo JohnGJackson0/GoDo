@@ -18,7 +18,7 @@ export const updateTasksInCloud = createAsyncThunk(
     try {
       const userId = ThunkAPI.getState().authentication.userId;
       const tasks = ThunkAPI.getState().tasks;
-      await firebase.firestore().collection("user").doc(userId).update(tasks);
+      await firebase.firestore().doc(`${userId}/tasks`).set(tasks);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
     }
