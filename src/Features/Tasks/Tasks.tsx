@@ -26,16 +26,13 @@ function Tasks(props: any) {
     (state: RootState) => state.authentication
   );
 
-
   useEffect(() => {
     modalizeRef.current?.open();
   }, [task]);
 
   useEffect(() => {
-    if (navTitle != "Settings") {
-      dispatch(updateAppTitle(listData.selectedList.name));
-    }
-  });
+    dispatch(updateAppTitle(listData.selectedList.name));
+  }, []);
 
   function renderTaskList() {
     const items: any = [];

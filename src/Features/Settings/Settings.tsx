@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import ThemeCircle from "./ThemeCircle";
 import { Text, withTheme } from "react-native-paper";
 import Account from "./Account";
+import { useDispatch } from "react-redux";
+import { updateAppTitle } from "../AppSlice";
 
 const Settings = (props: any) => {
+  const dispatch = useDispatch();
   const { colors } = props.theme;
+
+  useEffect(() => {
+    dispatch(updateAppTitle("Settings"));
+  }, []);
 
   const styles = StyleSheet.create({
     container: {
