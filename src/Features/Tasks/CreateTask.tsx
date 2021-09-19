@@ -6,6 +6,7 @@ import { RootState } from "../../store";
 import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
 import ListSelector from "../SelectLists/ListSelector";
 import { updateActiveCatagory } from "../Lists/ListsSlice";
+import { updateAppTitle } from "../AppSlice";
 
 function CreateTask(props: any) {
   const listData = useSelector((state: RootState) => state.lists);
@@ -56,6 +57,7 @@ function CreateTask(props: any) {
             dispatch(addTask({ name: taskInput, onList: list }));
             dispatch(updateActiveCatagory(list));
             dispatch(updateTasksInCloud());
+            dispatch(updateAppTitle(list.name));
           }}
         />
       </View>

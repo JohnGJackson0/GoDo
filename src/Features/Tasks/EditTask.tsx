@@ -63,6 +63,7 @@ function EditTask(props: any) {
                 editable: list.editable,
               })
             );
+            dispatch(updateAppTitle(list.name));
             dispatch(updateTasksInCloud());
           }}
         />
