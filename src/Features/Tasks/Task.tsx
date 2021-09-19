@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Checkbox, Text, IconButton, withTheme } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { updateChecked, removeTask } from "./TasksSlice";
+import { updateChecked, removeTask, updateTasksInCloud } from "./TasksSlice";
 
 const Task = (props: any) => {
   const dispatch = useDispatch();
@@ -12,6 +12,7 @@ const Task = (props: any) => {
     dispatch(
       updateChecked({ id: props.task.id, checked: !props.task.checked })
     );
+    dispatch(updateTasksInCloud());
   };
 
   return (

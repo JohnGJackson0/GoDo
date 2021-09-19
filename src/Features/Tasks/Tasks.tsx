@@ -13,7 +13,6 @@ import { updateAppTitle } from "../AppSlice";
 
 function Tasks(props: any) {
   const dispatch = useDispatch();
-  const navTitle = useSelector((state: RootState) => state.app.navTitle);
   const tasks = useSelector((state: RootState) => state.tasks);
   const [task, setTask] = useState("");
   const modalizeRef = useRef<Modalize>(null);
@@ -22,9 +21,6 @@ function Tasks(props: any) {
     (state: RootState) => state.lists.selectedList
   );
   const { colors } = props.theme;
-  const authentication = useSelector(
-    (state: RootState) => state.authentication
-  );
 
   useEffect(() => {
     modalizeRef.current?.open();
@@ -73,6 +69,7 @@ function Tasks(props: any) {
           top: 0,
         }}
       >
+        {/* TODO: flatlist */}
         <ScrollView>{renderTaskList()}</ScrollView>
 
         <FAB

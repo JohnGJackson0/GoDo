@@ -57,9 +57,6 @@ const Account = (props: any) => {
           </Text>
           <Button
             onPress={async () => {
-              {
-                console.log(firebase.auth().currentUser);
-              }
               await firebase.auth().signOut();
               props.navigation.reset({
                 index: 0,

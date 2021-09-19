@@ -18,7 +18,6 @@ export const AppSlice = createSlice({
       state.theme = action.payload;
     },
     updateAppTitle(state, action) {
-      console.log(action.payload);
       state.navTitle = action.payload;
     },
   },

@@ -6,7 +6,7 @@ import { RootState } from "../../store";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import EditList from "../Lists/EditList";
-import { removeChecked } from "./TasksSlice";
+import { removeChecked, updateTasksInCloud } from "./TasksSlice";
 import { useDispatch } from "react-redux";
 import { withTheme } from "react-native-paper";
 import { updateAppTitle } from "../AppSlice";
@@ -82,6 +82,7 @@ const Header = (props: any) => {
                   <Menu.Item
                     onPress={() => {
                       dispatch(removeChecked({ id: listData.selectedList.id }));
+                      dispatch(updateTasksInCloud());
                     }}
                     title="Remove Checked"
                   />

@@ -22,7 +22,6 @@ export const ListsSlice = createSlice({
   initialState,
   reducers: {
     updateActiveCatagory(state, action) {
-      console.log("action ", action.payload);
       if (typeof state.lists[action.payload.id] == undefined) {
         showMessage({
           message: "Catagory doesn't exist, something went wrong.",

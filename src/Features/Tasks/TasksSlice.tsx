@@ -1,5 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { showMessage } from "react-native-flash-message";
+import firebase from "firebase/app";
+import "firebase/firestore";
 export interface TasksState {
   tasks: Array<{ name: string; checked: boolean; id: number; list: any }>;
   lastId: number;
@@ -9,6 +11,19 @@ const initialState: TasksState = {
   tasks: [],
   lastId: 0,
 };
+
+export const updateTasksInCloud = createAsyncThunk(
+  "TasksSlice/setTasksData",
+  async (_: void, ThunkAPI: any) => {
+    try {
+      const userId = ThunkAPI.getState().authentication.userId;
+      const tasks = ThunkAPI.getState().tasks;
+      await firebase.firestore().collection("user").doc(userId).update(tasks);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 export const TasksSlice = createSlice({
   name: "tasks",
@@ -40,7 +55,6 @@ export const TasksSlice = createSlice({
         if (action.payload.id == state.tasks[index].id) {
           state.tasks[index].name = action.payload.name;
           state.tasks[index].list = action.payload.list;
-          console.log("updated list ", state.tasks[index].list);
         }
       });
     },
@@ -84,6 +98,9 @@ export const TasksSlice = createSlice({
         }
       }
     },
+    replaceAllTasks: (state, action) => {
+      state.tasks = action.payload;
+    },
   },
 });
 
@@ -95,6 +112,7 @@ export const {
   removeAllFromList,
   moveAllTasksOnListToAll,
   removeChecked,
+  replaceAllTasks,
 } = TasksSlice.actions;
 
 export default TasksSlice.reducer;

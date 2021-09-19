@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface AuthenticationState {
   hasOptedOut: boolean;
+  userId: string;
 }
 
 const initialState: AuthenticationState = {
   hasOptedOut: false,
+  userId: "",
 };
 
 export const AuthenticationSlice = createSlice({
@@ -18,9 +20,12 @@ export const AuthenticationSlice = createSlice({
     optIn: (state) => {
       state.hasOptedOut = false;
     },
+    setUserId: (state, action) => {
+      state.userId = action.payload;
+    },
   },
 });
 
-export const { optOut, optIn } = AuthenticationSlice.actions;
+export const { optOut, optIn, setUserId } = AuthenticationSlice.actions;
 
 export default AuthenticationSlice.reducer;

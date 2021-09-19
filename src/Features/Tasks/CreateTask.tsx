@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "./TasksSlice";
+import { addTask, updateTasksInCloud } from "./TasksSlice";
 import { RootState } from "../../store";
 import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
 import ListSelector from "../SelectLists/ListSelector";
@@ -55,6 +55,7 @@ function CreateTask(props: any) {
           onPress={() => {
             dispatch(addTask({ name: taskInput, onList: list }));
             dispatch(updateActiveCatagory(list));
+            dispatch(updateTasksInCloud());
           }}
         />
       </View>
