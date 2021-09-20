@@ -10,6 +10,7 @@ import { Portal } from "react-native-portalize";
 import { withTheme, FAB } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { updateAppTitle } from "../AppSlice";
+import { FlatList } from "react-native-gesture-handler";
 
 function Tasks(props: any) {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function Tasks(props: any) {
   const [task, setTask] = useState("");
   const modalizeRef = useRef<Modalize>(null);
   const listData = useSelector((state: RootState) => state.lists);
+
   const selectedList = useSelector(
     (state: RootState) => state.lists.selectedList
   );
@@ -28,8 +30,7 @@ function Tasks(props: any) {
 
   useEffect(() => {
     dispatch(updateAppTitle(listData.selectedList.name));
-    
-  }, []);
+  }, [listData.selectedList.name]);
 
   function renderTaskList() {
     const items: any = [];
