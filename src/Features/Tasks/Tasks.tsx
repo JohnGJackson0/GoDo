@@ -28,6 +28,7 @@ function Tasks(props: any) {
 
   useEffect(() => {
     dispatch(updateAppTitle(listData.selectedList.name));
+    
   }, []);
 
   function renderTaskList() {

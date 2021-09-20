@@ -3,15 +3,15 @@ import { ActivityIndicator } from "react-native";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import Background from "../components/Background";
-import { theme } from "../core/theme";
 import { useSelector } from "react-redux";
 import { setUserId } from "../AuthenticationSlice";
 import { useDispatch } from "react-redux";
 import { replaceAllTasks } from "../../Tasks/TasksSlice";
 import { replaceAllLists, updateActiveCatagory } from "../../Lists/ListsSlice";
 import { updateAppTitle } from "../../AppSlice";
+import { withTheme } from "react-native-paper";
 
-const AuthLoadingScreen = ({ navigation }) => {
+const AuthLoadingScreen = ({ navigation, theme }) => {
   const authentication = useSelector((state) => state.authentication);
   const dispatch = useDispatch();
 
@@ -84,4 +84,4 @@ const AuthLoadingScreen = ({ navigation }) => {
   );
 };
 
-export default AuthLoadingScreen;
+export default withTheme(AuthLoadingScreen);
