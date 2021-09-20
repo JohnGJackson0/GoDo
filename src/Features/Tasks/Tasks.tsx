@@ -32,19 +32,9 @@ function Tasks(props: any) {
     dispatch(updateAppTitle(listData.selectedList.name));
   }, [listData.selectedList.name]);
 
-  function renderTaskList() {
-    const items: any = [];
-
-    tasks.tasks.map((item: any, pos) => {
-      if (item.list.id == selectedList.id || selectedList.id == 0) {
-        items.push(
-          <Task key={item.id} task={item} openEditModal={onModifyPressed} />
-        );
-      }
-    });
-
-    return items;
-  }
+  const renderItem = ({ item }: any) => {
+    return <Task key={item.id} task={item} openEditModal={onModifyPressed} />;
+  };
 
   const onOpen = () => {
     if (task == "") {
@@ -60,6 +50,18 @@ function Tasks(props: any) {
     setTask(taskToUpdate);
   };
 
+  const filterTasks = (item: Array<any>) => {
+    var value: Array<any> = [];
+
+    for (var i = 0; i < item.length; i++) {
+      if (item[i].list.id == selectedList.id || selectedList.id == 0) {
+        value.push(item[i]);
+      }
+    }
+
+    return value;
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View
@@ -71,8 +73,13 @@ function Tasks(props: any) {
           top: 0,
         }}
       >
-        {/* TODO: flatlist */}
-        <ScrollView>{renderTaskList()}</ScrollView>
+        <FlatList
+          style={{ flex: 1 }}
+          scrollEnabled={true}
+          data={filterTasks(tasks.tasks)}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
 
         <FAB
           style={{
