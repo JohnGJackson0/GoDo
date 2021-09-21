@@ -26,7 +26,10 @@ const Background = ({ children, theme }) => {
       resizeMode="repeat"
       style={styles.background}
     >
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         {children}
       </KeyboardAvoidingView>
     </View>
