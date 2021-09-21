@@ -14,7 +14,6 @@ const Account = (props: any) => {
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: colors.background,
     },
     text: {
@@ -23,7 +22,6 @@ const Account = (props: any) => {
     textImportant: {
       margin: 5,
       color: colors.primary,
-      textSize: 14,
     },
   });
 

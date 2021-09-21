@@ -19,7 +19,6 @@ const Settings = (props: any) => {
     container: {
       flex: 1,
       backgroundColor: colors.background,
-      flexDirection: "column",
     },
     label: {
       margin: 5,
@@ -28,9 +27,7 @@ const Settings = (props: any) => {
     themesContainer: {
       flexDirection: "row",
     },
-    accountContainer: {
-      flexDirection: "column",
-    },
+    accountContainer: {},
   });
 
   return (
