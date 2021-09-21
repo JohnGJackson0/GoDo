@@ -28,6 +28,10 @@ function Tasks(props: any) {
     modalizeRef.current?.open();
   }, [task]);
 
+  const onClose = () => {
+    modalizeRef.current?.close();
+  };
+
   useEffect(() => {
     dispatch(updateAppTitle(listData.selectedList.name));
   }, [listData.selectedList.name]);
@@ -104,9 +108,9 @@ function Tasks(props: any) {
             withHandle={false}
           >
             {task == "" ? (
-              <CreateTask theme={props.theme} />
+              <CreateTask theme={props.theme} onClose={onClose} />
             ) : (
-              <EditTask task={task} theme={props.theme} />
+              <EditTask task={task} theme={props.theme} onClose={onClose} />
             )}
           </Modalize>
         </Portal>

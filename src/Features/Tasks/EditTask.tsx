@@ -65,6 +65,7 @@ function EditTask(props: any) {
             );
             dispatch(updateAppTitle(list.name));
             dispatch(updateTasksInCloud());
+            props.onClose();
           }}
         />
       </View>

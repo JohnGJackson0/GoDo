@@ -58,6 +58,7 @@ function CreateTask(props: any) {
             dispatch(updateActiveCatagory(list));
             dispatch(updateTasksInCloud());
             dispatch(updateAppTitle(list.name));
+            props.onClose();
           }}
         />
       </View>
