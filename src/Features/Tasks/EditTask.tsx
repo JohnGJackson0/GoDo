@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { useDispatch } from "react-redux";
-import { updateTask, updateTasksInCloud } from "./TasksSlice";
+import {
+  updateActiveCatagory,
+  updateTask,
+  updateTasksInCloud,
+  updateListsInCloud,
+} from "./TasksSlice";
 import ListSelector from "../SelectLists/ListSelector";
 import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
-import { updateActiveCatagory } from "../Lists/ListsSlice";
 import { updateAppTitle } from "../AppSlice";
 
 function EditTask(props: any) {
-  const [taskInput, setTaskInput] = useState(props.task.name || "");
   const dispatch = useDispatch();
+
+  const [taskInput, setTaskInput] = useState(props.task.name || "");
   const [displayListsSelector, setDisplayListsSelector] = useState(false);
   const [list, setList] = useState(props.task.list);
 
@@ -65,6 +70,7 @@ function EditTask(props: any) {
             );
             dispatch(updateAppTitle(list.name));
             dispatch(updateTasksInCloud());
+            dispatch(updateListsInCloud());
             props.onClose();
           }}
         />

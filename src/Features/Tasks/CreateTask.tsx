@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { View, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, updateTasksInCloud } from "./TasksSlice";
+import {
+  addTask,
+  updateActiveCatagory,
+  updateListsInCloud,
+  updateTasksInCloud,
+} from "./TasksSlice";
 import { RootState } from "../../store";
 import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
-import ListSelector from "../SelectLists/ListSelector";
-import { updateActiveCatagory } from "../Lists/ListsSlice";
 import { updateAppTitle } from "../AppSlice";
+import ListSelector from "../SelectLists/ListSelector";
 
 function CreateTask(props: any) {
-  const listData = useSelector((state: RootState) => state.lists);
+  const listData = useSelector((state: RootState) => state.tasks);
   const [taskInput, setTaskInput] = useState("");
-  const [list, setList] = useState(listData.selectedList);
+  const [list, setList] = useState(listData.selectedCatagory);
   const dispatch = useDispatch();
   const [displayListsSelector, setDisplayListsSelector] = useState(false);
 
@@ -57,6 +61,9 @@ function CreateTask(props: any) {
             dispatch(addTask({ name: taskInput, onList: list }));
             dispatch(updateActiveCatagory(list));
             dispatch(updateTasksInCloud());
+            //in case list was made and not updated because user is offline
+            //lists and tasks would remain in sync
+            dispatch(updateListsInCloud());
             dispatch(updateAppTitle(list.name));
             props.onClose();
           }}

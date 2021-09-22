@@ -16,7 +16,7 @@ import "firebase/auth";
 import { FIREBASE_CONFIG } from "../AuthenticationPortal/core/config";
 import Header from "../Tasks/Header";
 import Tasks from "../Tasks/Tasks";
-import Lists from "../Lists/Lists";
+import Lists from "../Catagories/Lists";
 import Settings from "../Settings/Settings";
 import FlashMessage from "react-native-flash-message";
 

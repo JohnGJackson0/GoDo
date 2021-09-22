@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { View } from "react-native";
 import EditTask from "./EditTask";
 import CreateTask from "./CreateTask";
 import { useSelector } from "react-redux";
@@ -17,10 +17,9 @@ function Tasks(props: any) {
   const tasks = useSelector((state: RootState) => state.tasks);
   const [task, setTask] = useState("");
   const modalizeRef = useRef<Modalize>(null);
-  const listData = useSelector((state: RootState) => state.lists);
 
   const selectedList = useSelector(
-    (state: RootState) => state.lists.selectedList
+    (state: RootState) => state.tasks.selectedCatagory
   );
   const { colors } = props.theme;
 
@@ -33,8 +32,8 @@ function Tasks(props: any) {
   };
 
   useEffect(() => {
-    dispatch(updateAppTitle(listData.selectedList.name));
-  }, [listData.selectedList.name]);
+    dispatch(updateAppTitle(tasks.selectedCatagory.name));
+  }, [tasks.selectedCatagory.name]);
 
   const renderItem = ({ item }: any) => {
     return <Task key={item.id} task={item} openEditModal={onModifyPressed} />;

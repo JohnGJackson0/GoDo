@@ -6,8 +6,11 @@ import Background from "../components/Background";
 import { useSelector } from "react-redux";
 import { setUserId } from "../AuthenticationSlice";
 import { useDispatch } from "react-redux";
-import { replaceAllTasks } from "../../Tasks/TasksSlice";
-import { replaceAllLists, updateActiveCatagory } from "../../Lists/ListsSlice";
+import {
+  replaceAllTasks,
+  updateActiveCatagory,
+  replaceAllLists,
+} from "../../Tasks/TasksSlice";
 import { updateAppTitle } from "../../AppSlice";
 import { withTheme } from "react-native-paper";
 

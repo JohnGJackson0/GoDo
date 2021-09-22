@@ -7,7 +7,6 @@ import AddLists from "./AddLists";
 import EditList from "./EditList";
 import { Portal } from "react-native-portalize";
 import { View, FlatList } from "react-native";
-import { useDispatch } from "react-redux";
 import { withTheme } from "react-native-paper";
 
 const formatData = (data: Array<any>, numColumns: number) => {
@@ -31,8 +30,6 @@ const formatData = (data: Array<any>, numColumns: number) => {
 
 function Lists(props: any) {
   const [list, setList] = useState("");
-  const listData = useSelector((state: RootState) => state.lists);
-  const dispatch = useDispatch();
   const taskData = useSelector((state: RootState) => state.tasks);
   const { colors } = props.theme;
 
@@ -100,7 +97,7 @@ function Lists(props: any) {
         }}
       >
         <FlatList
-          data={formatData(listData.lists, 2)}
+          data={formatData(taskData.catagory, 2)}
           renderItem={renderItem}
           numColumns={2}
         />

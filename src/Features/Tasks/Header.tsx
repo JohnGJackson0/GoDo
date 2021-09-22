@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
-import EditList from "../Lists/EditList";
+import EditList from "../Catagories/EditList";
 import { removeChecked, updateTasksInCloud } from "./TasksSlice";
 import { useDispatch } from "react-redux";
 import { withTheme } from "react-native-paper";
@@ -15,7 +15,8 @@ const Header = (props: any) => {
   const [isVisible, setIsVisible] = useState(false);
   const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
   const navTitle = useSelector((state: RootState) => state.app.navTitle);
-  const listData = useSelector((state: RootState) => state.lists);
+  const tasksData = useSelector((state: RootState) => state.tasks);
+
   const modalizeRef = useRef<Modalize>(null);
   const [title, setTitle] = useState(navTitle);
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const Header = (props: any) => {
           <>
             <Appbar.BackAction
               onPress={() => {
-                dispatch(updateAppTitle(listData.selectedList.name));
+                dispatch(updateAppTitle(tasksData.selectedCatagory.name));
                 props.navigation.goBack();
               }}
               color={colors.accent}
@@ -77,11 +78,13 @@ const Header = (props: any) => {
               }
               onDismiss={closeMenu}
             >
-              {listData.selectedList.id == 0 ? (
+              {tasksData.selectedCatagory.id == 0 ? (
                 <>
                   <Menu.Item
                     onPress={() => {
-                      dispatch(removeChecked({ id: listData.selectedList.id }));
+                      dispatch(
+                        removeChecked({ id: tasksData.selectedCatagory.id })
+                      );
                       dispatch(updateTasksInCloud());
                     }}
                     title="Remove Checked"
@@ -105,7 +108,9 @@ const Header = (props: any) => {
                   />
                   <Menu.Item
                     onPress={() => {
-                      dispatch(removeChecked({ id: listData.selectedList.id }));
+                      dispatch(
+                        removeChecked({ id: tasksData.selectedCatagory.id })
+                      );
                     }}
                     title="Remove Checked"
                   />
@@ -134,7 +139,7 @@ const Header = (props: any) => {
         >
           <EditList
             onClose={onClose}
-            list={listData.selectedList}
+            list={tasksData.selectedCatagory}
             theme={props.theme}
           />
         </Modalize>

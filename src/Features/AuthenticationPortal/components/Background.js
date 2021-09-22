@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, KeyboardAvoidingView, View } from "react-native";
+import { StyleSheet, KeyboardAvoidingView, View, Platform } from "react-native";
 import { withTheme } from "react-native-paper";
 
 const Background = ({ children, theme }) => {

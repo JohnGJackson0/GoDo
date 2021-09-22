@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import {
-  editList,
-  deleteList,
-  updateActiveCatagory,
-  updateListsInCloud,
-} from "./ListsSlice";
-import {
   moveAllTasksOnListToAll,
   removeAllFromList,
+  updateListsInCloud,
   updateTasksInCloud,
+  editCatagory,
+  deleteCatagory,
+  updateActiveCatagory
 } from "../Tasks/TasksSlice";
 import { Portal } from "react-native-portalize";
 import { updateAppTitle } from "../AppSlice";
@@ -45,7 +43,7 @@ const EditList = (props: any) => {
           icon="arrow-right-circle-outline"
           color={props.theme.colors.accent}
           onPress={() => {
-            dispatch(editList({ id: props.list.id, name: listInput }));
+            dispatch(editCatagory({ id: props.list.id, name: listInput }));
             dispatch(updateListsInCloud());
             dispatch(updateTasksInCloud());
             props.onClose();
@@ -91,7 +89,7 @@ const EditList = (props: any) => {
             <View style={{ margin: 5 }}>
               <Button
                 onPress={() => {
-                  dispatch(deleteList({ id: props.list.id }));
+                  dispatch(deleteCatagory({ id: props.list.id }));
                   dispatch(removeAllFromList(props.list.id));
                   props.onClose();
                   dispatch(
@@ -118,7 +116,7 @@ const EditList = (props: any) => {
                 dark={props.theme.colors}
                 color={props.theme.colors.accent}
                 onPress={() => {
-                  dispatch(deleteList({ id: props.list.id }));
+                  dispatch(deleteCatagory({ id: props.list.id }));
                   dispatch(moveAllTasksOnListToAll({ id: props.list.id }));
                   props.onClose();
                   dispatch(updateActiveCatagory({ id: 0 }));

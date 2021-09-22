@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import { updateActiveCatagory } from "./ListsSlice";
 import { updateAppTitle } from "../AppSlice";
 import { Surface, withTheme, Text, IconButton } from "react-native-paper";
+import { updateActiveCatagory } from "../Tasks/TasksSlice";
 
 const styles = StyleSheet.create({
   item: {
