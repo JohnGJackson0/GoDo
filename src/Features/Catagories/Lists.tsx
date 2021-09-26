@@ -38,8 +38,10 @@ function Lists(props: any) {
   }, [list]);
 
   const getTaskCount = (id: number) => {
+    {
+      console.log("state.tasks ", taskData);
+    }
     var result: number = 0;
-
     taskData.tasks.forEach(function (item, index) {
       if (id == 0) {
         result++;

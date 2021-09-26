@@ -32,6 +32,7 @@ function Tasks(props: any) {
   };
 
   useEffect(() => {
+    console.log("the name ", tasks.selectedCatagory.name);
     dispatch(updateAppTitle(tasks.selectedCatagory.name));
   }, [tasks.selectedCatagory.name]);
 
@@ -81,7 +82,6 @@ function Tasks(props: any) {
           scrollEnabled={true}
           data={filterTasks(tasks.tasks)}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
         />
 
         <FAB

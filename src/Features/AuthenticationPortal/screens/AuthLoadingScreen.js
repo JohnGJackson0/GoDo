@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { setUserId } from "../AuthenticationSlice";
 import { useDispatch } from "react-redux";
 import {
-  replaceAllTasks,
+  reloadState,
   updateActiveCatagory,
   merge,
 } from "../../Tasks/TasksSlice";
@@ -26,39 +26,19 @@ const AuthLoadingScreen = ({ navigation, theme }) => {
         index: 0,
         routes: [{ name: "Tasks" }],
       });
-      dispatch(updateAppTitle("All"));
-      dispatch(
-        updateActiveCatagory({
-          name: "All",
-          id: 0,
-          editable: false,
-        })
-      );
 
       async function loadTasks(userId) {
         const userTasksRef = firebase
           .firestore()
           .collection(userId)
           .doc("tasks");
-        const userListsRef = firebase
-          .firestore()
-          .collection(userId)
-          .doc("catagories");
 
         const tasksDoc = await userTasksRef.get();
-        const catagoriesDoc = await userListsRef.get();
 
         if (tasksDoc.exists) {
           //pass this to redux
           const data = tasksDoc.data();
-          dispatch(replaceAllTasks(data.tasks));
-        }
-
-        if (catagoriesDoc.exists || tasksDoc.exists) {
-          const catagoriesData = catagoriesDoc.data();
-          const tasksData = tasksDoc.data();
-
-          dispatch(merge({ tasks: tasksData, catagories: catagoriesData }));
+          dispatch(reloadState(data));
         }
       }
     } else if (authentication.hasOptedOut) {

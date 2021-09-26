@@ -97,7 +97,6 @@ const EditList = (props: any) => {
                       editable: false,
                     })
                   );
-                  dispatch(updateAppTitle("All"));
                   dispatch(updateTasksInCloud());
                 }}
                 mode="contained"
@@ -116,7 +115,13 @@ const EditList = (props: any) => {
                   dispatch(deleteCatagory({ id: props.list.id }));
                   dispatch(moveAllTasksOnListToAll({ id: props.list.id }));
                   props.onClose();
-                  dispatch(updateActiveCatagory({ id: 0 }));
+                  dispatch(
+                    updateActiveCatagory({
+                      name: "All",
+                      id: 0,
+                      editable: false,
+                    })
+                  );
                   dispatch(updateAppTitle("All"));
                   dispatch(updateTasksInCloud());
                 }}

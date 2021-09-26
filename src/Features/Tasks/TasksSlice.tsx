@@ -4,16 +4,16 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 export interface TasksState {
   tasks: Array<{ name: string; checked: boolean; id: number; list: any }>;
-  lastTaskId: number;
-  //catagory
+  uniqueTaskId: number;
   catagory: Array<{ name: string; id: number; editable: boolean }>;
+  //this part should really be tested
   catagoryCount: number;
   selectedCatagory: { name: string; id: number; editable: boolean };
 }
 
 const initialState: TasksState = {
   tasks: [],
-  lastTaskId: 0,
+  uniqueTaskId: 0,
   selectedCatagory: { name: "All", id: 0, editable: false },
   catagory: [
     { name: "All", id: 0, editable: false },
@@ -28,9 +28,7 @@ export const updateTasksInCloud = createAsyncThunk(
   async (_: void, ThunkAPI: any) => {
     try {
       const userId = ThunkAPI.getState().authentication.userId;
-      const tasks = ThunkAPI.getState().tasks;
-      const catagories = ThunkAPI.getState().catagories;
-      await firebase.firestore().doc(`${userId}/catagories`).set(catagories);
+      const tasks = ThunkAPI.getState().tasks; /*The whole task state*/
       await firebase.firestore().doc(`${userId}/tasks`).set(tasks);
     } catch (e) {
       return ThunkAPI.rejectWithValue(e);
@@ -54,13 +52,13 @@ export const TasksSlice = createSlice({
           type: "danger",
         });
       } else {
+        state.uniqueTaskId = state.uniqueTaskId + 1;
         state.tasks.push({
           name: action.payload.name,
+          id: state.uniqueTaskId,
           checked: false,
-          id: state.lastTaskId + 1,
           list: action.payload.onList,
         });
-        state.lastTaskId = state.lastTaskId + 1;
       }
     },
     updateTask: (state, action) => {
@@ -82,6 +80,7 @@ export const TasksSlice = createSlice({
       state.tasks.forEach(function (arrayItem, index) {
         if (action.payload.id == state.tasks[index].id) {
           state.tasks.splice(index, 1);
+          // state.uniqueTaskId do not decrement, you don't always remove last id
         }
       });
     },
@@ -161,17 +160,14 @@ export const TasksSlice = createSlice({
     replaceAllLists: (state, action) => {
       state.catagory = action.payload;
     },
-    replaceAllTasks: (state, action) => {
-      //technically the action.payload could be out of sync with tasks
-      //because of syncing issues when a user is offline
-      //we have reconcile them here
+    reloadState: (state, action) => {
+      state.tasks = action.payload.tasks;
+      state.catagory = action.payload.catagory;
+      state.catagoryCount = action.payload.catagoryCount;
+      state.selectedCatagory = { id: 0, name: "All", editable: false };
 
-      state.tasks = action.payload;
-      state.lastTaskId = state.tasks.length;
-    },
-    merge: (state, action) => {
-      state.tasks = action.payload;
-      state.lastTaskId = state.tasks.length;
+      console.log("the payload", action.payload);
+      console.log("the state", state.tasks);
     },
   },
 });
@@ -185,7 +181,6 @@ export const {
   removeAllFromList,
   moveAllTasksOnListToAll,
   removeChecked,
-  replaceAllTasks,
   //catagory
   addCatagory,
   editCatagory,
@@ -193,7 +188,7 @@ export const {
   updateActiveCatagory,
   //both
   replaceAllLists,
-  merge,
+  reloadState,
 } = TasksSlice.actions;
 
 export default TasksSlice.reducer;
