@@ -29,22 +29,11 @@ export const updateTasksInCloud = createAsyncThunk(
     try {
       const userId = ThunkAPI.getState().authentication.userId;
       const tasks = ThunkAPI.getState().tasks;
+      const catagories = ThunkAPI.getState().catagories;
+      await firebase.firestore().doc(`${userId}/catagories`).set(catagories);
       await firebase.firestore().doc(`${userId}/tasks`).set(tasks);
-    } catch (error) {
-      return ThunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
-export const updateListsInCloud = createAsyncThunk(
-  "ListsSlice/setListsData",
-  async (_: void, ThunkAPI: any) => {
-    try {
-      const userId = ThunkAPI.getState().authentication.userId;
-      const lists = ThunkAPI.getState().lists;
-      await firebase.firestore().doc(`${userId}/lists`).set(lists);
-    } catch (error) {
-      return ThunkAPI.rejectWithValue(error.message);
+    } catch (e) {
+      return ThunkAPI.rejectWithValue(e);
     }
   }
 );
@@ -177,9 +166,10 @@ export const TasksSlice = createSlice({
       //because of syncing issues when a user is offline
       //we have reconcile them here
 
-      console.log("the state", current(state));
-      console.log("The lists state", current(state));
-
+      state.tasks = action.payload;
+      state.lastTaskId = state.tasks.length;
+    },
+    merge: (state, action) => {
       state.tasks = action.payload;
       state.lastTaskId = state.tasks.length;
     },
@@ -203,6 +193,7 @@ export const {
   updateActiveCatagory,
   //both
   replaceAllLists,
+  merge,
 } = TasksSlice.actions;
 
 export default TasksSlice.reducer;

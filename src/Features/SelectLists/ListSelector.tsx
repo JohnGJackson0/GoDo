@@ -6,7 +6,7 @@ import { RootState } from "../../store";
 import { Catagory } from "./Catagory";
 
 const ListSelector = (props: any) => {
-  const listData = useSelector((state: RootState) => state.lists);
+  const listData = useSelector((state: RootState) => state.tasks.catagory);
   const { colors } = props.theme;
   console.log(props.theme);
 
@@ -18,7 +18,7 @@ const ListSelector = (props: any) => {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <FlatList
         style={{ flex: 1 }}
-        data={listData.lists}
+        data={listData}
         renderItem={renderItem}
         keyExtractor={(item: any) => item.id.toString()}
       />

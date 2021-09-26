@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { withTheme, TextInput, IconButton } from "react-native-paper";
-import { addCatagory, updateListsInCloud, updateTasksInCloud } from "../Tasks/TasksSlice";
+import { addCatagory, updateTasksInCloud } from "../Tasks/TasksSlice";
 
 const AddLists = (props: any) => {
   const { colors } = props.theme;
@@ -32,7 +32,6 @@ const AddLists = (props: any) => {
           size={30}
           onPress={() => {
             dispatch(addCatagory(listInput));
-            dispatch(updateListsInCloud());
             dispatch(updateTasksInCloud());
             props.onClose();
           }}

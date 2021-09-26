@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addTask,
   updateActiveCatagory,
-  updateListsInCloud,
   updateTasksInCloud,
 } from "./TasksSlice";
 import { RootState } from "../../store";
@@ -63,7 +62,6 @@ function CreateTask(props: any) {
             dispatch(updateTasksInCloud());
             //in case list was made and not updated because user is offline
             //lists and tasks would remain in sync
-            dispatch(updateListsInCloud());
             dispatch(updateAppTitle(list.name));
             props.onClose();
           }}

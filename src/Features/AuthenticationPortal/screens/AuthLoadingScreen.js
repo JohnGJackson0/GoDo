@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import {
   replaceAllTasks,
   updateActiveCatagory,
-  replaceAllLists,
+  merge,
 } from "../../Tasks/TasksSlice";
 import { updateAppTitle } from "../../AppSlice";
 import { withTheme } from "react-native-paper";
@@ -22,7 +22,6 @@ const AuthLoadingScreen = ({ navigation, theme }) => {
     if (user) {
       dispatch(setUserId(user.uid));
       loadTasks(user.uid);
-      loadLists(user.uid);
       navigation.reset({
         index: 0,
         routes: [{ name: "Tasks" }],
@@ -41,28 +40,25 @@ const AuthLoadingScreen = ({ navigation, theme }) => {
           .firestore()
           .collection(userId)
           .doc("tasks");
+        const userListsRef = firebase
+          .firestore()
+          .collection(userId)
+          .doc("catagories");
 
         const tasksDoc = await userTasksRef.get();
+        const catagoriesDoc = await userListsRef.get();
 
         if (tasksDoc.exists) {
           //pass this to redux
           const data = tasksDoc.data();
           dispatch(replaceAllTasks(data.tasks));
         }
-      }
 
-      async function loadLists(userId) {
-        const userListsRef = firebase
-          .firestore()
-          .collection(userId)
-          .doc("lists");
+        if (catagoriesDoc.exists || tasksDoc.exists) {
+          const catagoriesData = catagoriesDoc.data();
+          const tasksData = tasksDoc.data();
 
-        const listsDoc = await userListsRef.get();
-
-        if (userListsRef.exists) {
-          //pass this to redux
-          const data = listsDoc.data();
-          dispatch(replaceAllLists(data.lists));
+          dispatch(merge({ tasks: tasksData, catagories: catagoriesData }));
         }
       }
     } else if (authentication.hasOptedOut) {

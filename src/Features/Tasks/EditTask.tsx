@@ -5,7 +5,6 @@ import {
   updateActiveCatagory,
   updateTask,
   updateTasksInCloud,
-  updateListsInCloud,
 } from "./TasksSlice";
 import ListSelector from "../SelectLists/ListSelector";
 import { withTheme, TextInput, IconButton, Text } from "react-native-paper";
@@ -70,7 +69,6 @@ function EditTask(props: any) {
             );
             dispatch(updateAppTitle(list.name));
             dispatch(updateTasksInCloud());
-            dispatch(updateListsInCloud());
             props.onClose();
           }}
         />

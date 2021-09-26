@@ -4,11 +4,10 @@ import { useDispatch } from "react-redux";
 import {
   moveAllTasksOnListToAll,
   removeAllFromList,
-  updateListsInCloud,
   updateTasksInCloud,
   editCatagory,
   deleteCatagory,
-  updateActiveCatagory
+  updateActiveCatagory,
 } from "../Tasks/TasksSlice";
 import { Portal } from "react-native-portalize";
 import { updateAppTitle } from "../AppSlice";
@@ -44,7 +43,6 @@ const EditList = (props: any) => {
           color={props.theme.colors.accent}
           onPress={() => {
             dispatch(editCatagory({ id: props.list.id, name: listInput }));
-            dispatch(updateListsInCloud());
             dispatch(updateTasksInCloud());
             props.onClose();
           }}
@@ -100,7 +98,6 @@ const EditList = (props: any) => {
                     })
                   );
                   dispatch(updateAppTitle("All"));
-                  dispatch(updateListsInCloud());
                   dispatch(updateTasksInCloud());
                 }}
                 mode="contained"
@@ -121,7 +118,6 @@ const EditList = (props: any) => {
                   props.onClose();
                   dispatch(updateActiveCatagory({ id: 0 }));
                   dispatch(updateAppTitle("All"));
-                  dispatch(updateListsInCloud());
                   dispatch(updateTasksInCloud());
                 }}
               >
