@@ -43,6 +43,7 @@ function CreateTask(props: any) {
       >
         <View style={{ flexGrow: 1, margin: 5 }}>
           <TextInput
+            testID="temp"
             theme={props.theme}
             dense={true}
             placeholder="enter a task"
@@ -52,11 +53,13 @@ function CreateTask(props: any) {
         </View>
 
         <IconButton
+          testID="enter"
           icon="arrow-right-circle-outline"
           color={props.theme.colors.accent}
           {...props}
           size={30}
           onPress={() => {
+            setTaskInput("");
             dispatch(addTask({ name: taskInput, onList: list }));
             dispatch(updateActiveCatagory(list));
             dispatch(updateTasksInCloud());
@@ -78,6 +81,7 @@ function CreateTask(props: any) {
         >
           <IconButton
             icon="view-list-outline"
+            testID="displayListSelectorButton"
             color={props.theme.colors.accent}
             {...props}
             size={30}
@@ -97,6 +101,7 @@ function CreateTask(props: any) {
     <>
       {displayListsSelector == true ? (
         <View
+          testID="showLists"
           style={{
             flex: 1,
             backgroundColor: props.theme.colors.background,

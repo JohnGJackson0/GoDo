@@ -8,7 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import NavigationGateway from "./src/Features/NavigationGateway/NavigationGateway";
 
-let persistor = persistStore(store);
+export let persistor = persistStore(store);
 
 declare global {
   namespace ReactNativePaper {
