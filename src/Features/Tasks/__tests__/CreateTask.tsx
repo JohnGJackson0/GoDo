@@ -63,14 +63,13 @@ describe("Features/tasks/CreateTask", () => {
     fireEvent.press(getByText("Personal"));
     expect(getByText("Personal"));
   });
-  it("the input displays nothing after the task is selected", () => {
+  it("the input displays nothing after enter", () => {
     const onClose = jest.fn();
-    const { getByTestId, getByPlaceholderText, queryByText, getByText } =
-      render(
-        <Provider store={store}>
-          <CreateTask onClose={onClose} />
-        </Provider>
-      );
+    const { getByTestId, getByPlaceholderText } = render(
+      <Provider store={store}>
+        <CreateTask onClose={onClose} />
+      </Provider>
+    );
     fireEvent.changeText(getByPlaceholderText("enter a task"), "My new task");
     expect(getByPlaceholderText("enter a task").props.value).toEqual(
       "My new task"

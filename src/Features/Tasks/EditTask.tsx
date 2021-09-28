@@ -49,10 +49,12 @@ function EditTask(props: any) {
         </View>
 
         <IconButton
+          testID="enter"
           icon="arrow-right-circle-outline"
           color={props.theme.colors.accent}
           size={30}
           onPress={() => {
+            setTaskInput("");
             dispatch(
               updateTask({
                 name: taskInput,
@@ -83,6 +85,7 @@ function EditTask(props: any) {
         }}
       >
         <IconButton
+          testID="displayListSelectorButton"
           icon="view-list-outline"
           color={props.theme.colors.accent}
           size={30}
