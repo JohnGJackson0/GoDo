@@ -98,7 +98,7 @@ function CreateTask(props: any) {
     </View>
   );
   return (
-    <>
+    <View testID="createTask">
       {displayListsSelector == true ? (
         <View
           testID="showLists"
@@ -122,7 +122,7 @@ function CreateTask(props: any) {
           {task}
         </View>
       )}
-    </>
+    </View>
   );
 }
 
