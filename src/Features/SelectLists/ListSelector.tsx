@@ -8,7 +8,6 @@ import { Catagory } from "./Catagory";
 const ListSelector = (props: any) => {
   const listData = useSelector((state: RootState) => state.tasks.catagory);
   const { colors } = props.theme;
-  console.log(props.theme);
 
   const renderItem = ({ item }: any) => (
     <Catagory list={item} onSelected={props.onSelected} theme={props.theme} />

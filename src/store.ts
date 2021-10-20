@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import tasksReducer from "./Features/Tasks/TasksSlice";
 import AppReducer from "./Features/AppSlice";
 import AuthenticationReducer from "./Features/AuthenticationPortal/AuthenticationSlice";
@@ -11,6 +15,10 @@ const reducers = combineReducers({
   app: AppReducer,
 });
 
+const customizedMiddleware = getDefaultMiddleware({
+  serializableCheck: false,
+});
+
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -19,6 +27,7 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => customizedMiddleware,
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -5,9 +5,11 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "expo start --web",
-    "test": "jest",
-    "clear": "jest --clearCache", 
-    "testall": "jest --watchAll "
+    "clear": "jest --clearCache",
+    "test": "jest --verbose --coverage ",
+    "test:update": "jest --verbose --coverage --updateSnapshot",
+    "test:watch": "jest --verbose --watch",
+    "coverage": "jest --verbose --coverage && open ./coverage/lcov-report/index.html"
   },
   "dependencies": {
     "@gregfrench/react-native-wheel-picker": "^1.2.15",
@@ -21,6 +23,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "@reduxjs/toolkit": "^1.6.0",
+    "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react-native": "^7.2.0",
     "enzyme": "^3.11.0",
     "expo": "^41.0.1",
@@ -75,7 +78,7 @@
     ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
-    ], 
+    ],
     "setupFiles": [
       "./jest/setup.js"
     ]
