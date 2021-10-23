@@ -79,7 +79,7 @@ function Tasks(props: any) {
       />
 
       <FAB
-        testID="createTaskFAB"
+        testID="newTaskFab"
         style={{
           position: "absolute",
           margin: 16,

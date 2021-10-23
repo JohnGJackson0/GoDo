@@ -43,6 +43,7 @@ const AuthLoadingScreen = ({ navigation, theme }) => {
       }
     } else if (authentication.hasOptedOut) {
       dispatch(setUserId(""));
+      console.log("has opted out called");
       navigation.reset({
         index: 0,
         routes: [{ name: "Tasks" }],

@@ -165,9 +165,6 @@ export const TasksSlice = createSlice({
       state.catagory = action.payload.catagory;
       state.catagoryCount = action.payload.catagoryCount;
       state.selectedCatagory = { id: 0, name: "All", editable: false };
-
-      console.log("the payload", action.payload);
-      console.log("the state", state.tasks);
     },
   },
 });
