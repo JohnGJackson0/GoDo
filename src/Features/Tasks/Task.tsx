@@ -66,6 +66,7 @@ const Task = (props: any) => {
         <View style={{ justifyContent: "flex-end" }}>
           {props.task.checked ? (
             <IconButton
+              testID="deleteIconButton"
               icon="delete-outline"
               onPress={() => {
                 dispatch(removeTask(props.task));
@@ -75,10 +76,11 @@ const Task = (props: any) => {
             />
           ) : (
             <IconButton
+              testID="editIconButton"
               icon="pencil-outline"
               color={colors.accent}
               onPress={() => {
-                props.openEditModal(props.task);
+                //props.openEditModal(props.task);
               }}
               size={20}
             />
