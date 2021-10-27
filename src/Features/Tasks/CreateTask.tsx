@@ -60,7 +60,7 @@ function CreateTask(props: any) {
           size={30}
           onPress={() => {
             setTaskInput("");
-            dispatch(addTask({ name: taskInput, onList: list }));
+            dispatch(addTask({ name: taskInput, list: list}));
             dispatch(updateActiveCatagory(list));
             dispatch(updateTasksInCloud());
             //in case list was made and not updated because user is offline

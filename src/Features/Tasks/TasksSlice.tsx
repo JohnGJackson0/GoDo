@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  current,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { showMessage } from "react-native-flash-message";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -36,6 +41,11 @@ export const updateTasksInCloud = createAsyncThunk(
   }
 );
 
+interface addTasksAction {
+  name: string;
+  onCatagory: { name: "All"; id: 0; editable: false };
+}
+
 export const TasksSlice = createSlice({
   name: "tasks",
   initialState,
@@ -57,7 +67,7 @@ export const TasksSlice = createSlice({
           name: action.payload.name,
           id: state.uniqueTaskId,
           checked: false,
-          list: action.payload.onList,
+          list: action.payload.list,
         });
       }
     },
@@ -66,6 +76,7 @@ export const TasksSlice = createSlice({
         if (action.payload.id == state.tasks[index].id) {
           state.tasks[index].name = action.payload.name;
           state.tasks[index].list = action.payload.list;
+          state.tasks[index].checked = action.payload.checked;
         }
       });
     },
@@ -94,25 +105,27 @@ export const TasksSlice = createSlice({
     moveAllTasksOnListToAll: (state, action) => {
       state.tasks.forEach(function (item, index) {
         if (action.payload.id == state.tasks[index].list.id) {
-          state.tasks[index].list.id = 0;
+          state.tasks[index].list = { editable: false, id: 0, name: "All" };
         }
       });
     },
     removeChecked: (state, action) => {
       for (var i = state.tasks.length - 1; i >= 0; i--) {
-        if (
-          action.payload.id == state.tasks[i].list.id ||
-          action.payload.id == 0
-        ) {
-          if (state.tasks[i].checked) {
-            state.tasks.splice(i, 1);
-          }
+        if (state.tasks[i].checked) {
+          state.tasks.splice(i, 1);
         }
       }
     },
     //catagories
     updateActiveCatagory(state, action) {
-      if (typeof state.catagory[action.payload.id] == undefined) {
+      var found = false;
+      state.catagory.forEach(function (arrayItem, index) {
+        if (action.payload.id == state.catagory[index].id) {
+          found = true;
+        }
+      });
+
+      if (found === false) {
         showMessage({
           message: "Catagory doesn't exist, something went wrong.",
           type: "danger",
@@ -157,9 +170,6 @@ export const TasksSlice = createSlice({
         }
       });
     },
-    replaceAllLists: (state, action) => {
-      state.catagory = action.payload;
-    },
     reloadState: (state, action) => {
       state.tasks = action.payload.tasks;
       state.catagory = action.payload.catagory;
@@ -183,8 +193,6 @@ export const {
   editCatagory,
   deleteCatagory,
   updateActiveCatagory,
-  //both
-  replaceAllLists,
   reloadState,
 } = TasksSlice.actions;
 
