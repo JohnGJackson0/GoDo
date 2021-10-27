@@ -70,7 +70,7 @@ describe("Features/Tasks/EditTask", () => {
     expect(getByPlaceholderText("edit a task").props.value).toEqual("new name");
   });
 
-  it("When pressing enter the list name is cleared", () => {
+  it("when pressing enter the list name is cleared", () => {
     const fakeTaskTwo = {
       name: "The name",
       list: {

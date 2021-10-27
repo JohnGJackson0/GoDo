@@ -6,13 +6,13 @@ describe("Features/Tasks/task", () => {
   it("renders", () => {
     render(<Task task={{ checked: false, name: "theName" }} />);
   });
-  it("Displays the name correctly", () => {
+  it("displays the name correctly", () => {
     const { getByText } = render(
       <Task task={{ checked: false, name: "theName" }} />
     );
     getByText(/theName/i);
   });
-  it("When checked is true prop shows line-through", () => {
+  it("when checked is true prop shows line-through", () => {
     const { getByText } = render(
       <Task task={{ checked: true, name: "theName" }} />
     );
@@ -22,7 +22,7 @@ describe("Features/Tasks/task", () => {
     });
   });
 
-  it("When checked is false prop doesn't show line-through", () => {
+  it("when checked is false prop doesn't show line-through", () => {
     const { getByText } = render(
       <Task task={{ checked: false, name: "theName" }} />
     );
@@ -49,14 +49,14 @@ describe("Features/Tasks/task", () => {
       });
     });
   });
-  it("Shows delete ICON when checked is true ", async () => {
+  it("shows delete ICON when checked is true ", async () => {
     const { getByTestId } = render(
       <Task task={{ checked: true, name: "theName" }} />
     );
 
     getByTestId("deleteIconButton");
   });
-  it("Does not show delete ICON when checked is false ", async () => {
+  it("does not show delete ICON when checked is false ", async () => {
     const { queryByTestId } = render(
       <Task task={{ checked: false, name: "theName" }} />
     );
