@@ -11,6 +11,7 @@ const ThemeCircle = (props: any) => {
 
   return (
     <TouchableOpacity
+      testID="circleClick"
       onPress={() => {
         if (props.variant == "dark") {
           dispatch(updateTheme(DarkTheme));

@@ -1,11 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 import { Text, withTheme, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { optIn } from "../AuthenticationPortal/AuthenticationSlice";
-import { logoutUser } from "../AuthenticationPortal/api/auth-api";
 import firebase from "firebase/app";
 
 const Account = (props: any) => {
@@ -33,6 +30,7 @@ const Account = (props: any) => {
             Opt into an account for backup and sync across platforms.
           </Text>
           <Button
+            testID="optIn"
             onPress={() => {
               dispatch(optIn());
               props.navigation.reset({
@@ -54,12 +52,13 @@ const Account = (props: any) => {
             {firebase.auth().currentUser?.email}
           </Text>
           <Button
+            testID="logout"
             onPress={async () => {
-              await firebase.auth().signOut();
               props.navigation.reset({
                 index: 0,
                 routes: [{ name: "AuthLoadingScreen" }],
               });
+              await firebase.auth().signOut();
             }}
           >
             Logout

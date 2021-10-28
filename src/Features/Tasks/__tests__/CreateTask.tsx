@@ -79,5 +79,4 @@ describe("Features/tasks/CreateTask", () => {
     expect(getByPlaceholderText("enter a task").props.value).toEqual("");
   });
 
-  afterEach(cleanup);
 });
