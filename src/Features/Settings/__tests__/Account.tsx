@@ -14,6 +14,7 @@ jest.mock("firebase/app", () => {
 describe("Features/Settings/Account", () => {
   afterEach(() => {
     (firebase.auth as jest.Mocked<any>).mockClear();
+    jest.clearAllMocks();
   });
 
   it("should render", () => {

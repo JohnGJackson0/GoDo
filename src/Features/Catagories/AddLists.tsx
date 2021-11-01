@@ -27,6 +27,7 @@ const AddLists = (props: any) => {
         </View>
 
         <IconButton
+          testID="submit"
           icon="arrow-right-circle-outline"
           color={colors.accent}
           size={30}

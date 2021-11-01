@@ -21,8 +21,6 @@ const formatData = (data: Array<any>, numColumns: number) => {
     numberOfElementsLastRow !== numColumns &&
     numberOfElementsLastRow !== 0
   ) {
-    value.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
-    numberOfElementsLastRow++;
   }
 
   return value;
@@ -38,9 +36,6 @@ function Lists(props: any) {
   }, [list]);
 
   const getTaskCount = (id: number) => {
-    {
-      console.log("state.tasks ", taskData);
-    }
     var result: number = 0;
     taskData.tasks.forEach(function (item, index) {
       if (id == 0) {

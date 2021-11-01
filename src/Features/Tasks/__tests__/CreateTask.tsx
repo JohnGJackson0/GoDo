@@ -17,6 +17,9 @@ const MockTask = () => {
 };
 
 describe("Features/tasks/CreateTask", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it("renders correctly", () => {
     renderer.create(<MockTask />);
   });
@@ -78,5 +81,4 @@ describe("Features/tasks/CreateTask", () => {
 
     expect(getByPlaceholderText("enter a task").props.value).toEqual("");
   });
-
 });

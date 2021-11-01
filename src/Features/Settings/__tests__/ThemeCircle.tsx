@@ -4,6 +4,10 @@ import { render, fireEvent, waitFor } from "../../../../test-utils";
 import * as redux from "react-redux";
 
 describe("Features/Settings/ThemeCircle", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("renders", () => {
     render(<ThemeCircle />);
   });

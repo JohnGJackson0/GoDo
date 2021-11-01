@@ -26,6 +26,9 @@ const MockTask = () => {
 };
 
 describe("Features/Tasks/EditTask", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it("renders correctly", () => {
     renderer.create(<MockTask />);
   });

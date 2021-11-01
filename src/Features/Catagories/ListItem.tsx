@@ -47,6 +47,7 @@ const ListItem = (props: any) => {
   if (props.list.editable == false) {
     return (
       <TouchableOpacity
+        testID="nonEditableList"
         onPress={() => {
           dispatch(updateActiveCatagory(props.list));
           dispatch(updateAppTitle(props.list.name));
@@ -70,10 +71,11 @@ const ListItem = (props: any) => {
       </TouchableOpacity>
     );
   } else if (props.list.empty) {
-    return <View style={[styles.item, styles.itemInvisible]} />;
+    return <View testID = "empty" style={[styles.item, styles.itemInvisible]} />;
   } else if (props.list.key == "UIAdd") {
     return (
       <IconButton
+        testID="plus"
         style={[styles.item, styles.itemAdd]}
         color={colors.accent}
         onPress={() => {
@@ -86,6 +88,7 @@ const ListItem = (props: any) => {
   } else {
     return (
       <TouchableOpacity
+        testID="editableList"
         onPress={() => {
           dispatch(updateActiveCatagory(props.list));
           dispatch(updateAppTitle(props.list.name));
@@ -104,6 +107,7 @@ const ListItem = (props: any) => {
           </Text>
           <View style={styles.editIcon}>
             <IconButton
+              testID="edit"
               icon="pencil-outline"
               color={colors.accent}
               size={20}

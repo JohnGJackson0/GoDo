@@ -3,6 +3,9 @@ import { render, fireEvent, waitFor } from "../../../../test-utils";
 import Task from "../Task";
 
 describe("Features/Tasks/task", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it("renders", () => {
     render(<Task task={{ checked: false, name: "theName" }} />);
   });

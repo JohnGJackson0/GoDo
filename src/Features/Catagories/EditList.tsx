@@ -39,6 +39,7 @@ const EditList = (props: any) => {
           </View>
         </View>
         <IconButton
+          testID="submit"
           icon="arrow-right-circle-outline"
           color={props.theme.colors.accent}
           onPress={() => {
@@ -50,11 +51,11 @@ const EditList = (props: any) => {
         />
       </View>
       <IconButton
+        testID="delete"
         icon="delete-outline"
         color={props.theme.colors.accent}
         onPress={() => {
           setIsDeleteOverlayVisible(true);
-          //props.onClose();
         }}
         size={30}
       />
@@ -86,6 +87,7 @@ const EditList = (props: any) => {
 
             <View style={{ margin: 5 }}>
               <Button
+                testID="removeAll"
                 onPress={() => {
                   dispatch(deleteCatagory({ id: props.list.id }));
                   dispatch(removeAllFromList(props.list.id));
@@ -108,6 +110,7 @@ const EditList = (props: any) => {
             </View>
             <View style={{ margin: 5 }}>
               <Button
+                testID="keepTasks"
                 mode="contained"
                 dark={props.theme.colors}
                 color={props.theme.colors.accent}

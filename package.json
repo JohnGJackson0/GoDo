@@ -8,7 +8,7 @@
     "clear": "jest --clearCache",
     "test": "jest --verbose --coverage ",
     "test:update": "jest --verbose --coverage --updateSnapshot",
-    "test:watch": "jest --verbose --watch",
+    "test:watch": "jest --verbose --watch --onlyChanged --coverage",
     "coverage": "jest --verbose --coverage && open ./coverage/lcov-report/index.html"
   },
   "dependencies": {

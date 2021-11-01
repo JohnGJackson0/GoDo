@@ -5,6 +5,9 @@ import { render, fireEvent, waitFor } from "../../../../test-utils";
 import "@testing-library/jest-dom";
 
 describe("tasks", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it("renders", () => {
     render(<Tasks />);
   });

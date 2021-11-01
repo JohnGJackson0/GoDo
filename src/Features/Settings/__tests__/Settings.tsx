@@ -10,6 +10,9 @@ jest.mock("firebase/app", () => {
 });
 
 describe("Features/Settings/Settings", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it("renders", () => {
     (firebase.auth as jest.Mocked<any>).mockReturnValue({
       currentUser: { email: "example@gmail.com", uid: 1, emailVerified: true },

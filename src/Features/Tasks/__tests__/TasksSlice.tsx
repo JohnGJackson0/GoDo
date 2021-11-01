@@ -14,6 +14,10 @@ import reducer, {
 } from "../TasksSlice";
 
 describe("tasks slice", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should return the intial state", () => {
     expect(reducer(undefined, {})).toEqual({
       tasks: [],
