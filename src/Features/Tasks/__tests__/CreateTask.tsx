@@ -1,4 +1,3 @@
-jest.useFakeTimers();
 import "react-native";
 import React from "react";
 import { Provider } from "react-redux";

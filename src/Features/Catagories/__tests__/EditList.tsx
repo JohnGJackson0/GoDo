@@ -118,7 +118,7 @@ describe("Features/Catagories/EditLists", () => {
 
     fireEvent.press(getByTestId("delete"));
 
-    waitFor(() => {
+    await waitFor(() => {
       getByText(
         /would you like to remove all tasks on the list, or move them to/i
       );

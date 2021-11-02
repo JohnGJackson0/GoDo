@@ -1,6 +1,7 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "../../../../test-utils";
 import Task from "../Task";
+import * as redux from "react-redux";
 
 describe("Features/Tasks/task", () => {
   afterEach(() => {
@@ -35,23 +36,62 @@ describe("Features/Tasks/task", () => {
     });
   });
 
-  it("inverts checked vs not checked when pressed ", async () => {
-    const { getByText } = render(
+  it("not checked has no text through style ", async () => {
+    const { getByText, getByTestId } = render(
       <Task task={{ checked: false, name: "theName" }} />
     );
 
     expect(getByText("theName")).not.toHaveStyle({
       textDecorationLine: "line-through",
     });
+  });
 
-    fireEvent.press(getByText("theName"));
+  it("checked has text through style ", async () => {
+    const { getByText, getByTestId } = render(
+      <Task task={{ checked: true, name: "theName" }} />
+    );
 
-    waitFor(() => {
-      expect(getByText("theName")).toHaveStyle({
-        textDecorationLine: "line-through",
-      });
+    expect(getByText("theName")).toHaveStyle({
+      textDecorationLine: "line-through",
     });
   });
+
+  it("clicking the task checkbox will invert it", async () => {
+    const useDispatchSpy = jest.spyOn(redux, "useDispatch");
+    const mockDispatchFn = jest.fn();
+    useDispatchSpy.mockReturnValue(mockDispatchFn);
+
+    const { getByText, getByTestId } = render(
+      <Task task={{ checked: true, name: "theName" }} />
+    );
+
+    fireEvent.press(getByTestId("checkBox"));
+
+    await waitFor(() => {
+      expect(JSON.stringify(mockDispatchFn.mock.calls)).toEqual(
+        '[[{"type":"tasks/updateChecked","payload":{"checked":false}}],[null]]'
+      );
+    });
+  });
+
+  it("clicking the task will invert it", async () => {
+    const useDispatchSpy = jest.spyOn(redux, "useDispatch");
+    const mockDispatchFn = jest.fn();
+    useDispatchSpy.mockReturnValue(mockDispatchFn);
+
+    const { getByText, getByTestId } = render(
+      <Task task={{ checked: true, name: "theName" }} />
+    );
+
+    fireEvent.press(getByTestId("taskCheckBox"));
+
+    await waitFor(() => {
+      expect(JSON.stringify(mockDispatchFn.mock.calls)).toEqual(
+        '[[{"type":"tasks/updateChecked","payload":{"checked":false}}],[null]]'
+      );
+    });
+  });
+
   it("shows delete ICON when checked is true ", async () => {
     const { getByTestId } = render(
       <Task task={{ checked: true, name: "theName" }} />
@@ -81,6 +121,10 @@ describe("Features/Tasks/task", () => {
   });
 
   it("pressing on the delete icon removes the task", async () => {
+    const useDispatchSpy = jest.spyOn(redux, "useDispatch");
+    const mockDispatchFn = jest.fn();
+    useDispatchSpy.mockReturnValue(mockDispatchFn);
+
     const { getByText, getByTestId, queryByText } = render(
       <Task task={{ checked: true, name: "theName" }} />
     );
@@ -89,8 +133,11 @@ describe("Features/Tasks/task", () => {
 
     fireEvent.press(getByTestId("deleteIconButton"));
 
-    waitFor(() => {
-      expect(queryByText("theName")).toEqual(null);
+    await waitFor(() => {
+      expect(mockDispatchFn).toHaveBeenCalledWith({
+        payload: { checked: true, name: "theName" },
+        type: "tasks/removeTask",
+      });
     });
   });
   it("pressing the edit icon calls on the openEditModal", async () => {
@@ -102,12 +149,11 @@ describe("Features/Tasks/task", () => {
         openEditModal={openEditModal}
       />
     );
-    console.log(openEditModal);
     expect(openEditModal).not.toHaveBeenCalled();
 
     fireEvent.press(getByTestId("editIconButton"));
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(openEditModal).toHaveBeenCalled();
     });
   });

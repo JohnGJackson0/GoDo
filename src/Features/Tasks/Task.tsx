@@ -24,6 +24,7 @@ const Task = (props: any) => {
       }}
     >
       <TouchableOpacity
+        testID="taskCheckBox"
         onPress={() => {
           handleChange();
         }}
@@ -35,6 +36,7 @@ const Task = (props: any) => {
       >
         <View style={{ justifyContent: "flex-start" }}>
           <Checkbox
+            testID="checkBox"
             status={props.task.checked ? "checked" : "unchecked"}
             onPress={() => {
               handleChange();
@@ -44,6 +46,7 @@ const Task = (props: any) => {
         <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
           {props.task.checked ? (
             <Text
+              testID ="checked"
               numberOfLines={1}
               style={{
                 margin: 5,
@@ -80,7 +83,7 @@ const Task = (props: any) => {
               icon="pencil-outline"
               color={colors.accent}
               onPress={() => {
-                //props.openEditModal(props.task);
+                props.openEditModal(props.task);
               }}
               size={20}
             />

@@ -4,10 +4,10 @@ import { render, fireEvent, waitFor } from "../../../../test-utils";
 import * as redux from "react-redux";
 
 describe("Features/Catagories/AddLists", () => {
-  afterEach(() => {    
+  afterEach(() => {
     jest.clearAllMocks();
   });
-  
+
   it("should render", () => {
     render(<AddLists />);
   });
@@ -18,7 +18,7 @@ describe("Features/Catagories/AddLists", () => {
     getByPlaceholderText(/add a catagory/i);
   });
 
-  it("displays the correct input the user types", () => {
+  it("displays the correct input the user types", async () => {
     const { getByPlaceholderText, getByText } = render(<AddLists />);
 
     getByPlaceholderText(/add a catagory/i);
@@ -28,19 +28,23 @@ describe("Features/Catagories/AddLists", () => {
       "User Typed content"
     );
 
-    expect(getByPlaceholderText(/add a catagory/i).props.value).toEqual(
-      "User Typed content"
-    );
+    await waitFor(() => {
+      expect(getByPlaceholderText(/add a catagory/i).props.value).toEqual(
+        "User Typed content"
+      );
+    });
   });
 
-  it("closes when submitting", () => {
+  it("closes when submitting", async () => {
     const fakeClose = jest.fn();
 
     const { getByTestId } = render(<AddLists onClose={fakeClose} />);
 
     fireEvent.press(getByTestId("submit"));
 
-    expect(fakeClose).toHaveBeenCalled;
+    await waitFor(() => {
+      expect(fakeClose).toHaveBeenCalled;
+    });
   });
 
   it("updates the catagory correctly", async () => {
