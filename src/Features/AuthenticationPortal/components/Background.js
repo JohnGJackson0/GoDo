@@ -27,6 +27,7 @@ const Background = ({ children, theme }) => {
       style={styles.background}
     >
       <KeyboardAvoidingView
+        testID="keyboardAvoidingView"
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >

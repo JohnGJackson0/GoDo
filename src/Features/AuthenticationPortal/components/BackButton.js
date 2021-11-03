@@ -15,6 +15,7 @@ const BackButton = ({ goBack, theme }) => {
 
   return (
     <IconButton
+      testID="back"
       onPress={goBack}
       style={styles.container}
       icon="arrow-left"
